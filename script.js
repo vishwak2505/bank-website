@@ -10,7 +10,7 @@ class User{
         this.dob = "";
         this.contact = "";
         this.mail = "";
-        this.accountType = "";
+        this.accountType = [false, false];
         this.homeaddress = "";
         this.balance = 0;
         this.pin = "";
@@ -51,6 +51,18 @@ let DBOpenReq = indexedDB.open('BankDB', 4);
 let currentUser = new User();
 
 const IDB = (function init() {
+
+    // getState('/country.txt');
+    // async function getState(file) {
+    //     let x = await fetch(file);
+    //     let y = await x.text();
+    //     alert(typeof(y));
+    //     alert(y);
+    //     y = JSON.stringify(y);
+    //     let z = JSON.parse(y);
+    //     alert(typeof(z));
+    // }
+
     DBOpenReq.addEventListener('error', (err) => {
         
     });
@@ -71,30 +83,28 @@ const IDB = (function init() {
 function signUp(ev) {
     let form = document.getElementById("SignUpForm");
     let tags = form.children;    
-    //alert(name);
-    let inputElements = [];
+    let userDetails = [];
+    let accountType = [];
+    let address = '';
     for (child of tags) {
         if (child.tagName == 'INPUT') {
-            inputElements.push(child.value);
-            alert(child.name);
-            alert(child.value);
+            if (child.name.indexOf('address') != -1) {
+                address += child.value + ', ';
+                continue;
+            }
+            if (child.name == 'accountType') {
+                if (child.checked) {
+                    accountType.push(true);
+                } else {
+                    accountType.push(false);
+                }
+                continue;
+            }
+            userDetails.push(child.value);
         }
     }
-    let name = document.getElementById("name").value.trim();
-    let dob = document.getElementById("dateOfBirth").value.trim();
-    let contact = document.getElementById("contact").value.trim().toString();
-    let mail = document.getElementById("mail").value.trim();
-    let accountType = document.getElementById("savings").checked? "Savings" : document.getElementById("current").checked ? "Current" : "false";
-    let addressarray = [];
-    addressarray.push(document.getElementById("addressDoor").value.trim()); 
-    addressarray.push(document.getElementById("addressHouseName").value.trim()); 
-    addressarray.push(document.getElementById("addressStreet").value.trim());
-    addressarray.push(document.getElementById("addressArea").value.trim());
-    addressarray.push(document.getElementById("addressCity").value.trim());
-    addressarray.push(document.getElementById("addressState").value.trim());
-    let homeaddress = addressarray.join(',');
     let id = uid();
-    currentUser.setUserDetails(id, name, dob, contact, mail, accountType, homeaddress);  
+    currentUser.setUserDetails(id, ...userDetails, accountType, address);  
     console.log(currentUser.details);
     document.getElementById("signup").style.display = 'none';
     document.getElementById('block').style.height = '46vh';

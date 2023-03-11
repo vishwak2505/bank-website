@@ -4,8 +4,10 @@ body{
     margin: 0;
 }
 
+label{
+    font-size: 1vw;
+}
 
-  
 .tooltip{
     visibility: hidden;
     width: max-content;
@@ -44,7 +46,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.form input, .form1 input{
+.form input[type=date], .form input[type=number], .form input[type=text], .form input[type=email], .form input[type=password], .form input[type=date], .form1 input[type=number], .form1 input[type=text], .form1 input[type=email], .form1 input[type=password]{
     margin-bottom: 5%;
     color: aliceblue;
     width: 80%;
@@ -55,11 +57,12 @@ input::-webkit-inner-spin-button {
     border: none;
     border-style: solid 1px;
     border-radius: 15px;
+    font-size: 0.9vw;
 }
 .form ::placeholder, .form1 ::placeholder{
     color: white;
     opacity: 55%;
-    font-size: small;
+    font-size: 0.9vw;
     font-weight: 50;
     padding: 10px;
 }
@@ -78,6 +81,7 @@ input::-webkit-inner-spin-button {
     border: none;
     border-style: solid 1px;
     border-radius: 20px;
+    font-size: 0.9vw;
 }
 .form button:hover{
     background-color: rgb(206, 224, 224);
@@ -105,6 +109,7 @@ input::-webkit-inner-spin-button {
     width: 50%;
     height: 7vh;
     opacity: 50%;
+    font-size: 1vw;
 }
 .switch-option:hover{
     opacity: 100%;    
@@ -154,4 +159,14 @@ input::-webkit-inner-spin-button {
     width: 100%;
     height: min-content;
     text-align: center;
+}
+
+.form1 input[type=radio]{
+    accent-color: rgba(0, 0, 0, 0.4);
+    margin-left: 15px;
+    top: 4px;
+    vertical-align: middle;
+    width: 6%;
+    height: 6%;
+    cursor: pointer;
 }
