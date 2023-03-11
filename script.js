@@ -136,7 +136,7 @@ function setPin() {
         }
 
         document.pinForm.onsubmit = "";
-        document.pinForm.setAttribute("action", "login.html");
+        document.pinForm.setAttribute("action", "dashboard.html");
 
         let acct = tx.objectStore('accountDetails'); 
         let request = acct.add(user);        

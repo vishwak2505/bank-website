@@ -4,10 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style1.css">
     <link rel="stylesheet" href="/style.css">
     <title>Document</title>
 </head>
 <body>
-    <div></div>
+    <div class="bg-img"></div>
+    <div id="nav-bar">
+        <div id="nav-left">
+            <button id="acct-button" onclick="myAccount()">My Account</button>
+        </div>
+        <div id="nav-right">
+            <button id="trans-button" onclick="transactionHistory()">Transaction History</button>
+            <a id="logout" href="" style="height: inherit;"><button onclick="logout()">Logout</button></a>
+        </div>
+    </div>
+    <div id="my-account" style="display: none;"></div>
+    <div id="transaction-history" style="display: none;"></div>
+    <div id="content">
+        <div id="savings-tile">
+            <button onclick="savings()">Savings</button>
+        </div>
+        <div id="current-tile">
+            <button onclick="current()">Current</button>
+        </div>
+    </div>
+    <script src="/transaction.js"></script>
 </body>
 </html>

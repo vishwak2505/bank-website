@@ -59,6 +59,15 @@ input::-webkit-inner-spin-button {
     border-radius: 15px;
     font-size: 0.9vw;
 }
+.form1 input[type=radio]{
+    accent-color: rgba(0, 0, 0, 0.4);
+    margin-left: 15px;
+    top: 4px;
+    vertical-align: middle;
+    width: 6%;
+    height: 6%;
+    cursor: pointer;
+}
 .form ::placeholder, .form1 ::placeholder{
     color: white;
     opacity: 55%;
@@ -87,6 +96,7 @@ input::-webkit-inner-spin-button {
     background-color: rgb(206, 224, 224);
     opacity: 80%;
     transition: 300ms;
+    cursor: pointer;
 }
 
 /* Classes */
@@ -115,6 +125,7 @@ input::-webkit-inner-spin-button {
     opacity: 100%;    
     border-bottom: solid 1px;
     transition: 200ms;
+    cursor: pointer;
 }
 
 .login{
@@ -159,14 +170,4 @@ input::-webkit-inner-spin-button {
     width: 100%;
     height: min-content;
     text-align: center;
-}
-
-.form1 input[type=radio]{
-    accent-color: rgba(0, 0, 0, 0.4);
-    margin-left: 15px;
-    top: 4px;
-    vertical-align: middle;
-    width: 6%;
-    height: 6%;
-    cursor: pointer;
 }
