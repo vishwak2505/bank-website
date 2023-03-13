@@ -195,7 +195,7 @@ function transactionSummary() {
     for (index in user) {
         if (typeof(user[index]) == 'object') {
             details = `<h4>Time: ${user[index].time}</h4><br>
-                        <h4>Transaction: ${user[index].trasaction}</h4><h4>Amount: ${user[index].amount}</h4><br>
+                        <h4>Transaction: ${user[index].transaction}</h4><h4>Amount: ${user[index].amount}</h4><br>
                         <h4>Account: ${user[index].account}</h4><h4>Balance: ${user[index].balance}</h4><hr>` + details;
         }
     }
