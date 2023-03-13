@@ -19,23 +19,24 @@
             <form name="signUpForm" class="form" onsubmit="return false;">
                 <div id="SignUpForm" class="form1">
                     <input type="text" name="fullname" id="name" placeholder="First name and last name" onfocusout="checkText()" maxlength="25"><span id="tool-name" class="tooltip">Name should not contain special characters </span><br>
-                    <input type="date" name="dateOfBirth" id="dateOfBirth" max="2018-01-01"><br>
+                    <input type="text" name="dateOfBirth" id="dateOfBirth" max="2018-01-01" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="DOB"><br>
                     <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10"><span id="tool-contact" class="tooltip">Enter a valid Mobile Number</span><br>
                     <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" ><span id="tool-mail" class="tooltip">Enter a valid Mobile Number</span><br>
-                    <input type="radio" name="accountType" id="savings" checked><label for="savings">Savings</label><input type="radio" name="accountType" id="current"><label for="current">Current</label><br><br>
+                    <input type="checkbox" name="savings" id="savings" checked><label for="savings">Savings</label><input type="checkbox" name="current" id="current"><label for="current">Current</label><br><br>
                     <input type="text" name="addressDoor" id="addressDoor" placeholder="Door Number" > 
                     <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name"><br> 
                     <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" ><br>
                     <input type="text" name="addressArea" id="addressArea" placeholder="Area"><br>
                     <input type="text" name="addressCity" id="addressCity" placeholder="City"><br> 
-                    <input type="text" name="addressState" id="addressState" placeholder="State">
+                    <select name="addressState" id="addressState">
+                    </select>
                 </div><br>   
                 <button onclick="signUp()">Sign Up</button>
             </form> 
         </div>
         <div id="password" style="display: none;">
             <form name="pinForm" class="form">
-                <input type="password" name="pin" id="pin" placeholder="Enter PIN" maxlength="4" required><br>
+                <input type="password" name="pin" id="pin" placeholder="Enter PIN" onfocusout="checkPin()" maxlength="4" required><span id="tool-pin" class="tooltip">Enter 4 digit pin</span><br>
                 <input type="password" name="confirmPin" id="confirmPin" placeholder="Confirm PIN" maxlength="4" required><br><span id="wrongPassword" style="display: none;"></span>
                 <br><button onclick="setPin()">Submit</button>
             </form>

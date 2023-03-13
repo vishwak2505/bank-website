@@ -10,10 +10,11 @@ class User{
         this.dob = "";
         this.contact = "";
         this.mail = "";
-        this.accountType = [false, false];
+        this.accountType = { savings: false, current: false };
         this.homeaddress = "";
-        this.balance = 0;
+        this.balance = { savings: 0, current: 0 };
         this.pin = "";
+        this.transactions = [0];
     }
 
     setUserDetails(id, name, dob, contact, mail, accountType, homeaddress) {
@@ -37,6 +38,7 @@ class User{
             mail: this.mail,
             accountType: this.accountType,
             homeaddress: this.homeaddress,
+            transactions: this.transactions,
         });
     }
 
@@ -49,19 +51,29 @@ let db = null;
 let objectStore = null;
 let DBOpenReq = indexedDB.open('BankDB', 4);
 let currentUser = new User();
+let states = [];
+
+async function getState(file) {
+    let x = await fetch(file);
+    let y = await x.json();
+    for (values of y['state']) {
+        states.push(values['state']);
+    }
+
+    
+    for (value of states) {
+        let state = document.getElementById('addressState');
+        let option = document.createElement("option");
+        option.value = value;
+        option.text = value;
+        state.add(option); 
+    }
+}
 
 const IDB = (function init() {
 
-    // getState('/country.txt');
-    // async function getState(file) {
-    //     let x = await fetch(file);
-    //     let y = await x.text();
-    //     alert(typeof(y));
-    //     alert(y);
-    //     y = JSON.stringify(y);
-    //     let z = JSON.parse(y);
-    //     alert(typeof(z));
-    // }
+    getState('/country');
+    localStorage.setItem('currentUserId', '');
 
     DBOpenReq.addEventListener('error', (err) => {
         
@@ -84,7 +96,7 @@ function signUp(ev) {
     let form = document.getElementById("SignUpForm");
     let tags = form.children;    
     let userDetails = [];
-    let accountType = [];
+    let accountType = { savings: false, current: false};
     let address = '';
     for (child of tags) {
         if (child.tagName == 'INPUT') {
@@ -92,15 +104,22 @@ function signUp(ev) {
                 address += child.value + ', ';
                 continue;
             }
-            if (child.name == 'accountType') {
+            if (child.name == 'savings') {
                 if (child.checked) {
-                    accountType.push(true);
-                } else {
-                    accountType.push(false);
+                    accountType.savings = true;
+                }
+                continue;
+            }
+            if (child.name == 'current') {
+                if (child.checked) {
+                    accountType.current = true;
                 }
                 continue;
             }
             userDetails.push(child.value);
+        }
+        if (child.tagName == 'SELECT') {
+            address += child.value;
         }
     }
     let id = uid();
@@ -135,11 +154,13 @@ function setPin() {
             console.warn(err);
         }
 
+        localStorage.setItem('currentUserId', user.id);
+
         document.pinForm.onsubmit = "";
         document.pinForm.setAttribute("action", "dashboard.html");
 
         let acct = tx.objectStore('accountDetails'); 
-        let request = acct.add(user);        
+        let request = acct.add(user);  
 
         request.onsuccess = (ev) => {
             console.log('success');

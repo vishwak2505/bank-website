@@ -17,7 +17,7 @@ label{
     border-radius: 6px;
     padding: 5px 10px;
     position: absolute;
-    z-index: 9;
+    z-index: 1;
 }
 
 .tooltip::after {
@@ -59,6 +59,29 @@ input::-webkit-inner-spin-button {
     border-radius: 15px;
     font-size: 0.9vw;
 }
+
+.form1 select {
+    margin-bottom: 5%;
+    color: aliceblue;
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 3%;
+    height: 4vh;
+    background-color: rgba(159, 181, 229, 0.4);
+    border: none;
+    border-style: solid 1px;
+    border-radius: 15px;
+    font-size: 0.9vw;
+}
+
+.form1 option {
+    color: rgb(0, 0, 0);
+    width: 80%;
+    background-color: rgba(135, 147, 172, 0.4);
+    border: none;
+    font-size: 0.9vw;
+}
+
 .form1 input[type=radio]{
     accent-color: rgba(0, 0, 0, 0.4);
     margin-left: 15px;

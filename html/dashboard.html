@@ -11,16 +11,40 @@
 <body>
     <div class="bg-img"></div>
     <div id="nav-bar">
-        <div id="nav-left">
-            <button id="acct-button" onclick="myAccount()">My Account</button>
+        <div id="home-bar" style="all: inherit;">
+            <div id="nav-left">
+                <button id="acct-button" onclick="myAccount()">My Account</button>
+            </div>
+            <div id="nav-right">
+                <button id="trans-button" onclick="transactionHistory()">Transaction History</button>
+                <a id="logout" href="" style="display: inline-block; height: 100%; width: 49%;"><button onclick="logout()" style="width: 100%;">Logout</button></a>
+            </div>
         </div>
-        <div id="nav-right">
-            <button id="trans-button" onclick="transactionHistory()">Transaction History</button>
-            <a id="logout" href="" style="height: inherit;"><button onclick="logout()">Logout</button></a>
-        </div>
+        <div id="transaction-bar" style="all: inherit; text-align: center; display: none;"><span id="text"></span><button id="exit-button" style="position: absolute; width: 25%;" onclick="location.reload()">Exit</button></div>
     </div>
-    <div id="my-account" style="display: none;"></div>
-    <div id="transaction-history" style="display: none;"></div>
+    <div id="my-account" style="display: none;">
+        <img src="/pngfind.com-bite-mark-png-631239.png" style="width: 20%;" alt="profile">
+        <div id="details"></div>
+        <!-- <button onclick="updateDetails()">UPDATE</button> -->
+    </div>
+    <div id="update" style="display: none;">
+        <form name="updateForm" class="form" onsubmit="return false;">
+            <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10"><span id="tool-contact" class="tooltip">Enter a valid Mobile Number</span><br>
+            <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" ><span id="tool-mail" class="tooltip">Enter a valid Mobile Number</span><br>
+            <input type="checkbox" name="savings" id="savings" checked><label for="savings">Savings</label><input type="checkbox" name="current" id="current"><label for="current">Current</label><br><br>
+            <input type="text" name="addressDoor" id="addressDoor" placeholder="Door Number" > 
+            <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name"><br> 
+            <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" ><br>
+            <input type="text" name="addressArea" id="addressArea" placeholder="Area"><br>
+            <input type="text" name="addressCity" id="addressCity" placeholder="City"><br> 
+            <select name="addressState" id="addressState">
+            </select>
+            <button onclick="update()">UPDATE</button>
+        </form> 
+    </div>
+    <div id="transaction-history" style="display: none;">
+        <div id="transactions"><h3>Transaction History</h3><hr><div id="history"></div></div>
+    </div>
     <div id="content">
         <div id="savings-tile">
             <button onclick="savings()">Savings</button>
@@ -29,6 +53,25 @@
             <button onclick="current()">Current</button>
         </div>
     </div>
+    <div id="transaction-block" style="display: none;">
+        <div id="withdraw-tile">
+            <button onclick="withdraw()">Withdraw</button>
+        </div>
+        <div id="amount-form" style="display: none;">
+            <form onsubmit="return false;">
+                <input type="number" name="amount" id="amount" placeholder="Enter Amount"><br>
+                <input type="password" name="pin" id="pin" placeholder="Pin" maxlength="4" onfocusout="checkPinTrans()"><br><span id="wrongPin" style="display: none;"></span><br>  
+                <button onclick="validateTransaction()">Submit</button>
+            </form>
+        </div>
+        <div id="deposit-tile">
+            <button onclick="deposit()">Deposit</button>
+        </div>
+        <div id="message" style="display: none;">
+
+        </div>
+    </div>
     <script src="/transaction.js"></script>
+    <script src="/validation.js"></script>
 </body>
 </html>
