@@ -5,7 +5,7 @@ h1, h2, h3, h4, h5{
     font-size: 1vw;
 }
 
-#nav-bar{
+.nav-bar{
     width: 100%;
     height: 10vh;
     position: fixed;
@@ -28,7 +28,7 @@ h1, h2, h3, h4, h5{
 }
 #nav-right{
     display: inline-block;
-    height: inherit;
+    height: inherit;   
     position: absolute;
     right: 0;
     width: 25%;
@@ -186,21 +186,73 @@ h1, h2, h3, h4, h5{
     overflow-x: hidden;
 }
 
-#transactions{
+#transactions-block{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.transactions-bar{
     padding-top: 5%;
     width: 100%;
-    height: 95%;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    overflow-y: scroll;
-    overflow-x: hidden;
+    height: 10%;
+    border: none;
+    border-bottom: solid 2px;
+    border-color: aliceblue;
+}
+
+.transactions-footer{
+    width: 100%;
+    height: 10%;
+}
+
+.transactions-footer input{
+    margin: 2%;
+    text-align: center;
+    color: aliceblue;
+    width: 20%;
+    height: 60%;
+    padding-left: 5%;
+    padding-right: 3%;
+    background-color: rgba(159, 181, 229, 0.4);
+    border: none;
+    border-style: solid 1px;
+    border-radius: 15px;
+    font-size: 0.9vw;
+}
+
+.transactions-footer ::placeholder{
+    margin-left: 5%;
+    margin-right: 5%;
+    color: aliceblue;
+    font-size: 0.9vw;
+}
+
+.transactions-footer button{
+    background-color: azure;
+    height: 4vh;
+    width: 30%;
+    font-weight: bold;
+    border: none;
+    border-style: solid 1px;
+    border-radius: 20px;
+    font-size: 0.9vw;
+}
+.transactions-footer button:hover{
+    background-color: rgb(206, 224, 224);
+    opacity: 80%;
+    transition: 300ms;
+    cursor: pointer;
 }
 
 #history{
-    display: inline-block;
-    padding-top: 2%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
     width: 80%;
-    height: 80%;
+    height: 65%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -215,8 +267,7 @@ h1, h2, h3, h4, h5{
 #transaction-history{
     background-color: rgba(5, 24, 37, 0.4);
     width: 30%;
-    height: 60vh;
-    margin: 0;
+    height: 70vh;
     position: absolute;
     text-align: center;
     top: 50%;

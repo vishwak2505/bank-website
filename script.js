@@ -5,7 +5,7 @@ const uid = () => {
 
 class User{
     constructor () {
-        this.id = "";
+        this.id = "";  
         this.name = "";
         this.dob = "";
         this.contact = "";

@@ -108,7 +108,6 @@ input::-webkit-inner-spin-button {
     background-color: azure;
     height: 4vh;
     width: 80%;
-    font-size: smaller;
     font-weight: bold;
     border: none;
     border-style: solid 1px;

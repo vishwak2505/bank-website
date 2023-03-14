@@ -114,7 +114,7 @@ function current() {
         return;
     }
     document.getElementById('content').style.display = 'none';
-    document.getElementById('home-bar').style.display = 'none';
+    document.getElementsById('home-bar').style.display = 'none';
     document.getElementById('transaction-bar').style.display = '';
     document.getElementById('text').innerHTML = '<h2>Current Account</h2>';
     document.getElementById('transaction-block').style.display = '';
@@ -191,18 +191,57 @@ function myAccount() {
 function transactionSummary() {
     let user = currentUser.details.transactions;
     let details = '';
+    let filterUser = [...user];
+    let start = document.getElementById('startDate').value;
+    let end = document.getElementById('endDate').value;
 
-    for (index in user) {
-        if (typeof(user[index]) == 'object') {
-            details = `<h4>Time: ${user[index].time}</h4><br>
-                        <h4>Transaction: ${user[index].transaction}</h4><h4>Amount: ${user[index].amount}</h4><br>
-                        <h4>Account: ${user[index].account}</h4><h4>Balance: ${user[index].balance}</h4><hr>` + details;
+    if (start != '' && end != '') {
+        filterUser = user.filter((item) => { return (item['date'] <= end && item['date'] >= start )});
+        for (index in filterUser) {
+            if (typeof(filterUser[index]) == 'object') {
+                details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
+                            <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
+                            <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
+            }   
+        }   
+    } else if (start != '') {
+        filterUser = user.filter((item) => item['date'] >= start );
+        for (index in filterUser) {
+            if (typeof(filterUser[index]) == 'object') {
+                details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
+                            <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
+                            <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
+            }   
+        } 
+    } else if (end != '') {
+        filterUser = user.filter((item) => item['date'] <= end );
+        for (index in filterUser) {
+            if (typeof(filterUser[index]) == 'object') {
+                details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
+                            <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
+                            <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
+            }   
+        } 
+    } else {
+        for (index in user) {
+            if (typeof(user[index]) == 'object') {
+                details = `<h4>Day: ${user[index].date}</h4><h4>Time: ${user[index].time}</h4><br>
+                            <h4>Transaction: ${user[index].transaction}</h4><h4>Amount: ${user[index].amount}</h4><br>
+                            <h4>Account: ${user[index].account}</h4><h4>Balance: ${user[index].balance}</h4><hr>` + details;
+            }
         }
     }
-    return details;
+
+    if (details == '') {
+        details = `<h4>No Transactions Performed</h4>`;
+    }
+
+    document.getElementById('history').innerHTML = details;
 }
 
 function transactionHistory() {
+    let user = currentUser.details.transactions;
+    let details = '';
     if ( document.getElementById('transaction-history').style.display == 'none') {
         document.getElementById('transaction-history').style.display = '';
         document.getElementById('my-account').style.display = 'none';
@@ -215,8 +254,19 @@ function transactionHistory() {
         document.getElementById('trans-button').innerText = 'Transaction History';
     }
 
-    let transactionDetails = transactionSummary();
-    document.getElementById('history').innerHTML = transactionDetails;
+    for (index in user) {
+        if (typeof(user[index]) == 'object') {
+            details = `<h4>Day: ${user[index].date}</h4><h4>Time: ${user[index].time}</h4><br>
+                        <h4>Transaction: ${user[index].transaction}</h4><h4>Amount: ${user[index].amount}</h4><br>
+                        <h4>Account: ${user[index].account}</h4><h4>Balance: ${user[index].balance}</h4><hr>` + details;
+        }
+    }
+
+    if (details == '') {
+        details = `<h4>No Transactions Performed</h4>`;
+    }
+
+    document.getElementById('history').innerHTML = details;
 }
 
 let count = 3;
@@ -235,7 +285,6 @@ function validateTransaction() {
         }
         alert(`${count--} Attempts Left`);
         document.getElementById('wrongPin').style.display = '';
-        document.getElementById('wrongPin').innerHTML = 'Incorrect Pin <br>';
         document.getElementById('pin').value = '';
         document.getElementById('pin').focus();
         document.getElementById('pin').style.backgroundColor = 'rgba(247, 7, 19, 0.4)';
@@ -243,6 +292,7 @@ function validateTransaction() {
     }
     count = 3;
     let index = 'savings';
+    document.getElementById('exit-button').style.display = 'none';
     if (!savingsAccount) { index = 'current';}
     if (withdrawMoney) {
         if (user.balance[index] > (amount)) {
@@ -250,9 +300,11 @@ function validateTransaction() {
             document.getElementById('amount-form').style.display = 'none';
             document.getElementById('message').style.display = '';
             document.getElementById('message').innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[index] + '</h2>';
-            let time = new Date();
+            let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
+            let time = new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
             user.transactions.push({
                 id: user.transactions.length+1,
+                date,
                 time,
                 transaction: 'Withdraw',
                 amount: amount,
@@ -271,9 +323,11 @@ function validateTransaction() {
             document.getElementById('amount-form').style.display = 'none';
             document.getElementById('message').style.display = '';
             document.getElementById('message').innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[index] + '</h2>';
-            let time = new Date();
+            let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
+            let time = new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
             user.transactions.push({
                 id: user.transactions.length+1,
+                date,
                 time,
                 transaction: "Deposit",
                 amount: amount,
@@ -310,3 +364,4 @@ function logout() {
     document.getElementById('logout').href = 'index.html';
     localStorage.setItem('currentUserId', '');
 }
+
