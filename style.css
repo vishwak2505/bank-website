@@ -77,14 +77,15 @@ input::-webkit-inner-spin-button {
 .form1 option {
     color: rgb(0, 0, 0);
     width: 80%;
+    padding-bottom: 20px;
     background-color: rgba(135, 147, 172, 0.4);
     border: none;
     font-size: 0.9vw;
 }
 
-.form1 input[type=radio]{
+.form1 input[type=checkbox]{
     accent-color: rgba(0, 0, 0, 0.4);
-    margin-left: 15px;
+    margin-left: 10px;
     top: 4px;
     vertical-align: middle;
     width: 6%;
@@ -192,4 +193,17 @@ input::-webkit-inner-spin-button {
     width: 100%;
     height: min-content;
     text-align: center;
+}
+
+.tool-tip-disp{
+    visibility: visible;
+    transition: 3s;
+}
+
+.warn-input{
+    background-color: rgba(247, 7, 19, 0.4);
+}
+
+.display{
+    display: none;
 }

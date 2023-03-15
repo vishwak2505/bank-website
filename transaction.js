@@ -6,7 +6,7 @@ class User{
         this.contact = "";
         this.mail = "";
         this.accountType = { savings: false, current: false };
-        this.homeaddress = "";
+        this.homeaddress = [];
         this.balance = { savings: 0, current: 0 };
         this.pin = "";
         this.transactions = [0];
@@ -28,6 +28,13 @@ class User{
     updateTransaction(balance, transaction) {
         this.balance = balance;
         this.transactions = transaction;
+    }
+    
+    updateAccount(address, accountType, contact, mail) {
+        this.homeaddress = address;
+        this.accountType = accountType;
+        this.contact = contact;
+        this.mail = mail;
     }
 
     get details() {
@@ -52,6 +59,7 @@ let DBOpenReq = indexedDB.open('BankDB', 4);
 let currentUser = new User();
 let withdrawMoney = true;
 let savingsAccount = true;
+
 
 const IDB = (function init() {
 
@@ -114,7 +122,7 @@ function current() {
         return;
     }
     document.getElementById('content').style.display = 'none';
-    document.getElementsById('home-bar').style.display = 'none';
+    document.getElementById('home-bar').style.display = 'none';
     document.getElementById('transaction-bar').style.display = '';
     document.getElementById('text').innerHTML = '<h2>Current Account</h2>';
     document.getElementById('transaction-block').style.display = '';
@@ -141,6 +149,7 @@ function withdraw() {
 
 function myAccount() {
     if ( document.getElementById('my-account').style.display == 'none') {
+        document.getElementsByClassName('update')[0].classList.add('display');
         document.getElementById('my-account').style.display = '';
         document.getElementById('content').style.display = 'none';
         document.getElementById('transaction-history').style.display = 'none';
@@ -180,12 +189,15 @@ function myAccount() {
                 }
                 continue;
             }
+            if (key == 'homeaddress') {
+                details += `<h5>${displayKey.toUpperCase()}:</h5> <h4>${user[key].join(', ')}</h4><br>`;
+                continue;
+            }
             details += `<h5>${displayKey.toUpperCase()}:</h5> <h4>${user[key]}</h4><br>`;
         }
     }
     document.getElementById('details').innerHTML = details;
     console.log(currentUser.details);
-
 }
 
 function transactionSummary() {
@@ -301,7 +313,7 @@ function validateTransaction() {
             document.getElementById('message').style.display = '';
             document.getElementById('message').innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[index] + '</h2>';
             let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
-            let time = new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
+            let time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
             user.transactions.push({
                 id: user.transactions.length+1,
                 date,
@@ -324,7 +336,7 @@ function validateTransaction() {
             document.getElementById('message').style.display = '';
             document.getElementById('message').innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[index] + '</h2>';
             let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
-            let time = new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
+            let time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
             user.transactions.push({
                 id: user.transactions.length+1,
                 date,
@@ -365,3 +377,109 @@ function logout() {
     localStorage.setItem('currentUserId', '');
 }
 
+function updateDetails(){
+    document.getElementsByClassName('update')[0].classList.remove('display');
+    document.getElementById('my-account').style.display = 'none';
+    document.getElementById('home-bar').style.display = 'none';
+    document.getElementById('transaction-bar').style.display = '';
+    let form = document.getElementsByClassName('form')[0];
+    let tags = form.children;    
+    let user = currentUser.details;
+    let account = { savings: user.accountType.savings, current: user.accountType.current};
+    let address = user.homeaddress;
+    for (child of tags) {
+        if (child.tagName == 'INPUT') {
+            if (child.name == 'contact') {
+                child.value = Number(user.contact);
+            }
+            if (child.name == 'mail') {
+                child.value = user.mail;
+            }
+            if (child.name == 'addressDoor') {
+                child.value = address[0];
+            }
+            if (child.name == 'addressHouseName') {
+                child.value = address[1];
+            }      
+            if (child.name == 'addressStreet') {
+                child.value = address[2];
+            }
+            if (child.name == 'addressArea') {
+                child.value = address[3]; 
+            }
+            if (child.name == 'addressCity') {
+                child.value = address[4];
+            }             
+            if (child.name == 'savings') {
+                if (account.savings) {
+                    child.checked = true;
+                    child.disabled = true;
+                }
+            }
+            if (child.name == 'current') {
+                if (account.current) {
+                    child.checked = true;
+                    child.disabled = true;
+                }
+            }
+        }       
+    }
+}
+
+function update() {
+    document.getElementById('home-bar').style.display = '';
+    document.getElementById('transaction-bar').style.display = 'none';
+    let form = document.getElementsByClassName('form')[0];
+    let tags = form.children;    
+    let contact = '';
+    let mail = '';
+    let accountType = { savings: false, current: false};
+    let address = [];
+    for (child of tags) {
+        if (child.tagName == 'INPUT') {
+            if (child.name.indexOf('address') != -1) {
+                address.push(child.value);
+                continue;
+            }
+            if (child.name == 'savings') {
+                if (child.checked) {
+                    accountType.savings = true;
+                }
+                continue;
+            }
+            if (child.name == 'current') {
+                if (child.checked) {
+                    accountType.current = true;
+                }
+                continue;
+            }
+            if (child.name == 'contact') {
+                contact = child.value;
+            }
+            if (child.name == 'mail') {
+                mail = child.value;
+            }
+        }
+    }
+    address.push(currentUser.details.homeaddress[5]);
+    currentUser.updateAccount(address, accountType, contact, mail);
+    let user = currentUser.details;
+    let tx = db.transaction('accountDetails', 'readwrite');
+    tx.oncomplete = (ev) => {
+        console.log(ev);
+    };
+    tx.onerror = (err) => {
+        console.warn(err);
+    }
+
+    let acct = tx.objectStore('accountDetails'); 
+    let request = acct.put(user);  
+
+    request.onsuccess = (ev) => {
+        console.log('success');
+    };
+    request.onerror = (err) => {
+        console.log('error');
+    };
+    myAccount(); 
+}

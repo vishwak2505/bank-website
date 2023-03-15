@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/dashboard-style.css">
     <link rel="stylesheet" href="/style.css">
-    <title>Document</title>
+    <title>Dashboard</title>
 </head>
 <body>
     <div class="bg-img"></div>
@@ -25,21 +25,19 @@
     <div id="my-account" style="display: none;">
         <img src="/pngfind.com-bite-mark-png-631239.png" style="width: 20%;" alt="profile">
         <div id="details"></div>
-        <!-- <button onclick="updateDetails()">UPDATE</button> -->
+        <button onclick="updateDetails()">UPDATE</button>
     </div>
-    <div id="update" style="display: none;">
-        <form name="updateForm" class="form" onsubmit="return false;">
-            <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10"><span id="tool-contact" class="tooltip">Enter a valid Mobile Number</span><br>
-            <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" ><span id="tool-mail" class="tooltip">Enter a valid Mobile Number</span><br>
-            <input type="checkbox" name="savings" id="savings" checked><label for="savings">Savings</label><input type="checkbox" name="current" id="current"><label for="current">Current</label><br><br>
-            <input type="text" name="addressDoor" id="addressDoor" placeholder="Door Number" > 
-            <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name"><br> 
-            <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" ><br>
-            <input type="text" name="addressArea" id="addressArea" placeholder="Area"><br>
-            <input type="text" name="addressCity" id="addressCity" placeholder="City"><br> 
-            <select name="addressState" id="addressState">
-            </select>
-            <button onclick="update()">UPDATE</button>
+    <div class="update display">
+        <form action="#" name="updateForm" class="form" onsubmit="return false;">
+                <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10" required><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
+                <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" required><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
+                <input type="checkbox" name="savings" id="savings"><label for="savings">Savings</label><input type="checkbox" name="current" id="current"><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
+                <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" placeholder="Door Number" required> 
+                <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name" required><br> 
+                <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" required><br>
+                <input type="text" name="addressArea" id="addressArea" placeholder="Area" required><br>
+                <input type="text" name="addressCity" id="addressCity" placeholder="City" required><br> 
+                <button type="submit" onclick="update()">UPDATE</button>
         </form> 
     </div>
     <div id="transaction-history" style="display: none;">

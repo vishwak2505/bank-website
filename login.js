@@ -11,7 +11,7 @@ class User{
         this.contact = "";
         this.mail = "";
         this.accountType = { savings: false, current: false };
-        this.homeaddress = "";
+        this.homeaddress = [];
         this.balance = { savings: 0, current: 0 };
         this.pin = "";
         this.transactions = [0];
@@ -54,20 +54,20 @@ let currentUser = new User();
 let states = [];
 
 async function getState(file) {
-    let x = await fetch(file);
-    let y = await x.json();
-    for (values of y['state']) {
-        states.push(values['state']);
-    }
-
+    let response = await fetch(file);
+    let list = await response.json();
     
-    for (value of states) {
-        let state = document.getElementById('addressState');
+    list['state'].forEach(values => {
+        states.push(values['state']);
+    });
+
+    let state = document.getElementById('addressState');
+    states.forEach(value => {
         let option = document.createElement("option");
         option.value = value;
         option.text = value;
-        state.add(option); 
-    }
+        state.add(option);
+    }); 
 }
 
 const IDB = (function init() {
@@ -92,16 +92,16 @@ const IDB = (function init() {
     });
 })();
 
-function signUp(ev) {
+function signUp() {
     let form = document.getElementById("SignUpForm");
     let tags = form.children;    
     let userDetails = [];
     let accountType = { savings: false, current: false};
-    let address = '';
+    let address = [];
     for (child of tags) {
         if (child.tagName == 'INPUT') {
             if (child.name.indexOf('address') != -1) {
-                address += child.value + ', ';
+                address.push(child.value);
                 continue;
             }
             if (child.name == 'savings') {
@@ -119,7 +119,7 @@ function signUp(ev) {
             userDetails.push(child.value);
         }
         if (child.tagName == 'SELECT') {
-            address += child.value;
+            address.push(child.value);
         }
     }
     let id = uid();

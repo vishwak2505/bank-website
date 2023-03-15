@@ -32,14 +32,29 @@ function checkPinTrans() {
     }
 }
 
+function checkAccount() {
+    if (document.getElementById('savings').checked == false && document.getElementById('current').checked == false) {
+        document.getElementsByClassName('tool-account')[0].classList.add('tool-tip-disp');
+        document.getElementsByClassName('tool-account')[0].classList.remove('tool-account');
+        setTimeout(() => { 
+            document.getElementsByClassName('tool-tip-disp')[0].classList.add('tool-account');
+            document.getElementsByClassName('tool-tip-disp')[0].classList.remove('tool-tip-disp');
+        }, 2000);
+        return;
+    }
+    document.getElementsByClassName('tool-tip-disp')[0].classList.add('tool-account');
+    document.getElementsByClassName('tool-tip-disp')[0].classList.remove('tool-tip-disp');
+}
+
 function condition(name, toolName, flag) {
     if (!flag) {
         document.getElementById(name).style.backgroundColor = 'rgba(247, 7, 19, 0.4)';
         document.getElementById(name).focus();
-        document.getElementById(toolName).style.visibility = 'visible';
+        document.getElementsByClassName(toolName)[0].classList.add('tool-tip-disp');
+        document.getElementsByClassName(toolName)[0].classList.remove(toolName);
         setTimeout(() => { 
-            document.getElementById(toolName).style.visibility = 'hidden';
-            document.getElementById(toolName).style.transition = '3s';
+            document.getElementsByClassName('tool-tip-disp')[0].classList.add(toolName);
+            document.getElementsByClassName('tool-tip-disp')[0].classList.remove('tool-tip-disp');
         }, 2000);
         return;
     }
