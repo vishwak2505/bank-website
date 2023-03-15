@@ -107,11 +107,11 @@ function savings() {
         alert('This account is not linked with savings');
         return;
     }
-    document.getElementById('content').style.display = 'none';
-    document.getElementById('home-bar').style.display = 'none';
-    document.getElementById('transaction-bar').style.display = '';
+    document.getElementsByClassName('content')[0].classList.add('display');
+    document.getElementsByClassName('home-bar')[0].classList.add('display');
+    document.getElementsByClassName('transaction-bar')[0].classList.remove('display');
     document.getElementById('text').innerHTML = '<h2>Savings Account</h2>';
-    document.getElementById('transaction-block').style.display = '';
+    document.getElementsByClassName('transaction-block')[0].classList.remove('display');
     savingsAccount = true;
 }
 
@@ -121,43 +121,43 @@ function current() {
         alert('This account is not linked with current');
         return;
     }
-    document.getElementById('content').style.display = 'none';
-    document.getElementById('home-bar').style.display = 'none';
-    document.getElementById('transaction-bar').style.display = '';
+    document.getElementsByClassName('content')[0].classList.add('display');
+    document.getElementsByClassName('home-bar')[0].classList.add('display');
+    document.getElementsByClassName('transaction-bar')[0].classList.remove('display');
     document.getElementById('text').innerHTML = '<h2>Current Account</h2>';
-    document.getElementById('transaction-block').style.display = '';
+    document.getElementsByClassName('transaction-block')[0].classList.remove('display');
     savingsAccount = false;
 }
 
 function deposit() {
-    document.getElementById('withdraw-tile').style.display = 'none';
+    document.getElementsByClassName('withdraw-tile')[0].classList.add('display');
     document.getElementById('text').innerHTML = '<h2>Deposit</h2>';
-    document.getElementById('amount-form').style.display = '';
-    document.getElementById('amount-form').style.left = '2%';
-    document.getElementById('message').style.left = '2%';
+    document.getElementsByClassName('amount-form')[0].classList.add('display-left');
+    document.getElementsByClassName('amount-form')[0].classList.remove('display');
+    document.getElementsByClassName('message')[0].classList.add('display-left');
     withdrawMoney = false;
 }
 
 function withdraw() {
-    document.getElementById('deposit-tile').style.display = 'none';
+    document.getElementsByClassName('deposit-tile')[0].classList.add('display');
     document.getElementById('text').innerHTML = '<h2>Withdraw</h2>';
-    document.getElementById('amount-form').style.display = '';
-    document.getElementById('amount-form').style.right = '2%';
-    document.getElementById('message').style.right = '2%';
+    document.getElementsByClassName('amount-form')[0].classList.add('display-right');
+    document.getElementsByClassName('amount-form')[0].classList.remove('display');
+    document.getElementsByClassName('message')[0].classList.add('display-right');
     withdrawMoney = true;
 }
 
 function myAccount() {
-    if ( document.getElementById('my-account').style.display == 'none') {
+    if ( document.getElementsByClassName('my-account')[0].classList.contains('display') ) {
         document.getElementsByClassName('update')[0].classList.add('display');
-        document.getElementById('my-account').style.display = '';
-        document.getElementById('content').style.display = 'none';
-        document.getElementById('transaction-history').style.display = 'none';
+        document.getElementsByClassName('my-account')[0].classList.remove('display');
+        document.getElementsByClassName('content')[0].classList.add('display');
+        document.getElementsByClassName('transaction-history')[0].classList.add('display');
         document.getElementById('acct-button').innerText = 'Home';
         document.getElementById('trans-button').innerText = 'Transaction History';
     } else {
-        document.getElementById('my-account').style.display = 'none';
-        document.getElementById('content').style.display = '';
+        document.getElementsByClassName('my-account')[0].classList.add('display');
+        document.getElementsByClassName('content')[0].classList.remove('display');
         document.getElementById('acct-button').innerText = 'My Account';
     }
 
@@ -196,7 +196,7 @@ function myAccount() {
             details += `<h5>${displayKey.toUpperCase()}:</h5> <h4>${user[key]}</h4><br>`;
         }
     }
-    document.getElementById('details').innerHTML = details;
+    document.getElementsByClassName('details')[0].innerHTML = details;
     console.log(currentUser.details);
 }
 
@@ -248,21 +248,21 @@ function transactionSummary() {
         details = `<h4>No Transactions Performed</h4>`;
     }
 
-    document.getElementById('history').innerHTML = details;
+    document.getElementsByClassName('history')[0].innerHTML = details;
 }
 
 function transactionHistory() {
     let user = currentUser.details.transactions;
     let details = '';
-    if ( document.getElementById('transaction-history').style.display == 'none') {
-        document.getElementById('transaction-history').style.display = '';
-        document.getElementById('my-account').style.display = 'none';
-        document.getElementById('content').style.display = 'none';
+    if ( document.getElementsByClassName('transaction-history')[0].classList.contains('display')) {
+        document.getElementsByClassName('transaction-history')[0].classList.remove('display');
+        document.getElementsByClassName('my-account')[0].classList.add('display');
+        document.getElementsByClassName('content')[0].classList.add('display');
         document.getElementById('trans-button').innerText = 'Home';
         document.getElementById('acct-button').innerText = 'My Account';
     } else {
-        document.getElementById('transaction-history').style.display = 'none';
-        document.getElementById('content').style.display = '';
+        document.getElementsByClassName('transaction-history')[0].classList.add('display');
+        document.getElementsByClassName('content')[0].classList.remove('display');
         document.getElementById('trans-button').innerText = 'Transaction History';
     }
 
@@ -278,7 +278,7 @@ function transactionHistory() {
         details = `<h4>No Transactions Performed</h4>`;
     }
 
-    document.getElementById('history').innerHTML = details;
+    document.getElementsByClassName('history')[0].innerHTML = details;
 }
 
 let count = 3;
@@ -289,66 +289,62 @@ function validateTransaction() {
     amount = Number(amount);
     let pin = document.getElementById('pin').value;
     let transSuccess = false;
+    if (amount == '') {
+        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
+        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter Amount <br>';
+        document.getElementById('amount').value = '';
+        document.getElementById('amount').focus();
+        document.getElementById('amount').classList.add('wrong-input');
+        return;
+    }
     if (pin != user.pin) {
         if (count == 0) {
             alert('Logged out due to too many attempts of incorrect pin');
             window.location.replace('index.html');
             return;
         }
-        alert(`${count--} Attempts Left`);
-        document.getElementById('wrongPin').style.display = '';
+        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
+        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Incorrect Pin <br>';
         document.getElementById('pin').value = '';
         document.getElementById('pin').focus();
-        document.getElementById('pin').style.backgroundColor = 'rgba(247, 7, 19, 0.4)';
+        document.getElementById('pin').classList.add('wrong-input');
+        alert(`${count--} Attempts Left`);
         return;
     }
     count = 3;
-    let index = 'savings';
-    document.getElementById('exit-button').style.display = 'none';
-    if (!savingsAccount) { index = 'current';}
+    let account = 'savings';
+    let transaction = '';
+    document.getElementById('exit-button').classList.add('display');
+    document.getElementsByClassName('amount-form')[0].classList.add('display');
+    if (!savingsAccount) { account = 'current';}
     if (withdrawMoney) {
-        if (user.balance[index] > (amount)) {
-            user.balance[index] -= amount;
-            document.getElementById('amount-form').style.display = 'none';
-            document.getElementById('message').style.display = '';
-            document.getElementById('message').innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[index] + '</h2>';
-            let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
-            let time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
-            user.transactions.push({
-                id: user.transactions.length+1,
-                date,
-                time,
-                transaction: 'Withdraw',
-                amount: amount,
-                balance: user.balance[index],
-                account: index,
-            });
+        if (user.balance[account] > (amount)) {
+            user.balance[account] -= amount;
+            transaction = 'Withdraw';
             transSuccess = true;
-        }
-        if (user.balance[index] < amount) {
-            document.getElementById('amount-form').style.display = 'none';
-            document.getElementById('message').style.display = '';
-            document.getElementById('message').innerHTML = '<h2>Transaction Unsuccessfull! Insuffiecient Balance</h2> <h2>Balance: ' + user.balance[index] + '</h2>';
+        } else {
+            document.getElementsByClassName('message')[0].classList.remove('display');
+            document.getElementsByClassName('message')[0].innerHTML = '<h2>Transaction Unsuccessfull! Insuffiecient Balance</h2> <h2>Balance: ' + user.balance[account] + '</h2>';
         }
     } else {
-            user.balance[index] += amount;
-            document.getElementById('amount-form').style.display = 'none';
-            document.getElementById('message').style.display = '';
-            document.getElementById('message').innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[index] + '</h2>';
-            let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
-            let time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
-            user.transactions.push({
-                id: user.transactions.length+1,
-                date,
-                time,
-                transaction: "Deposit",
-                amount: amount,
-                balance: user.balance[index],
-                account: index,
-            });
+            user.balance[account] += amount;
+            transaction = 'Deposit';
             transSuccess = true;
     }
     if (transSuccess) {
+        document.getElementsByClassName('message')[0].classList.remove('display');
+        document.getElementsByClassName('message')[0].innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[account] + '</h2>';    
+        let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
+        let time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
+        user.transactions.push({
+            id: user.transactions.length+1,
+            date,
+            time,
+            transaction,
+            amount,
+            balance: user.balance[account],
+            account,
+        });
         console.log(user.transactions);
         currentUser.updateTransaction(user.balance, user.transactions);
         let tx = db.transaction('accountDetails', 'readwrite');
@@ -379,9 +375,9 @@ function logout() {
 
 function updateDetails(){
     document.getElementsByClassName('update')[0].classList.remove('display');
-    document.getElementById('my-account').style.display = 'none';
-    document.getElementById('home-bar').style.display = 'none';
-    document.getElementById('transaction-bar').style.display = '';
+    document.getElementsByClassName('my-account')[0].classList.add('display');
+    document.getElementsByClassName('home-bar')[0].classList.add('display');
+    document.getElementsByClassName('transaction-bar')[0].classList.remove('display');
     let form = document.getElementsByClassName('form')[0];
     let tags = form.children;    
     let user = currentUser.details;
@@ -427,8 +423,8 @@ function updateDetails(){
 }
 
 function update() {
-    document.getElementById('home-bar').style.display = '';
-    document.getElementById('transaction-bar').style.display = 'none';
+    document.getElementsByClassName('home-bar')[0].classList.remove('display');
+    document.getElementsByClassName('transaction-bar')[0].classList.add('display');
     let form = document.getElementsByClassName('form')[0];
     let tags = form.children;    
     let contact = '';

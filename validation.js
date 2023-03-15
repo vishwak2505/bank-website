@@ -20,14 +20,31 @@ function checkPin() {
     condition ('pin', 'tool-pin', (pin.length == 4 ? true : false) );
 }
 
+function checkAmount() {
+    let amount = Number(document.getElementById('amount').value);
+    if (amount == 0) {
+        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
+        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter Valid Amount <br>';
+        document.getElementById('amount').value = '';
+        document.getElementById('amount').focus();
+        document.getElementById('amount').classList.add('wrong-input');
+    } else if (amount > 50000) {
+        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
+        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter Amount Less than 50,000<br>';
+        document.getElementById('amount').value = '';
+        document.getElementById('amount').focus();
+        document.getElementById('amount').classList.add('wrong-input');
+    }
+}
+
 function checkPinTrans() {
     let pin = document.getElementById('pin').value;
     if (pin.length != 4) {
-        document.getElementById('wrongPin').style.display = '';
-        document.getElementById('wrongPin').innerHTML = 'Enet 4 digit Pin <br>';
+        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
+        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter 4 digit Pin <br>';
         document.getElementById('pin').value = '';
         document.getElementById('pin').focus();
-        document.getElementById('pin').style.backgroundColor = 'rgba(247, 7, 19, 0.4)';
+        document.getElementById('pin').classList.add('wrong-input');
         return;
     }
 }
@@ -48,7 +65,7 @@ function checkAccount() {
 
 function condition(name, toolName, flag) {
     if (!flag) {
-        document.getElementById(name).style.backgroundColor = 'rgba(247, 7, 19, 0.4)';
+        document.getElementById(name).classList.add('wrong-input');
         document.getElementById(name).focus();
         document.getElementsByClassName(toolName)[0].classList.add('tool-tip-disp');
         document.getElementsByClassName(toolName)[0].classList.remove(toolName);
@@ -58,6 +75,6 @@ function condition(name, toolName, flag) {
         }, 2000);
         return;
     }
-    document.getElementById(name).style.backgroundColor = 'rgba(159, 181, 229, 0.4)';
+    document.getElementById(name).classList.remove('wrong-input');
     return;  
 }

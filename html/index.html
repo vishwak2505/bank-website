@@ -10,41 +10,41 @@
 </head>
 <body>
     <div class="bg-img"></div>
-    <div id="block">
-        <div id="bg-img1"></div>
-        <div id="hide">
+    <div class="block">
+        <div class="bg-img1"></div>
+        <div class="hide">
             <button class="login switch-option" id="loginPage" onclick="loginPage()">Sign In</button><button class="switch-option" id="SignUpPage" onclick="createAccount()">Sign Up</button>
         </div>
-        <div id="signup" style="display: none;">
+        <div class="signup display">
             <form action="#" name="signUpForm" class="form" onsubmit="return false;">
                 <div id="SignUpForm" class="form1">
-                    <input type="text" name="fullname" id="name" placeholder="First name and last name" onfocusout="checkText()" maxlength="25" required><span class="tooltip tool-name">Name should not contain special characters </span><br>
-                    <input type="text" name="dateOfBirth" id="dateOfBirth" max="2018-01-01" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="DOB" required><br>
-                    <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10" required><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
-                    <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" required><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
-                    <input type="checkbox" name="savings" id="savings" checked><label for="savings">Savings</label><input type="checkbox" name="current" id="current"><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
-                    <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" placeholder="Door Number" required> 
-                    <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name" required><br> 
-                    <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" required><br>
-                    <input type="text" name="addressArea" id="addressArea" placeholder="Area" required><br>
-                    <input type="text" name="addressCity" id="addressCity" placeholder="City" required><br> 
+                    <input type="text" name="fullname" id="name" placeholder="First name and last name" onfocusout="checkText()" maxlength="25" required /><span class="tooltip tool-name">Name should not contain special characters </span><br>
+                    <input type="text" name="dateOfBirth" id="dateOfBirth" max="2018-01-01" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="DOB" required /><br>
+                    <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
+                    <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
+                    <input type="checkbox" name="savings" id="savings" checked /><label for="savings">Savings</label><input type="checkbox" name="current" id="current" /><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
+                    <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" placeholder="Door Number" required /> 
+                    <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name" required /><br> 
+                    <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" required /><br>
+                    <input type="text" name="addressArea" id="addressArea" placeholder="Area" required /><br>
+                    <input type="text" name="addressCity" id="addressCity" placeholder="City" required /><br> 
                     <select name="addressState" id="addressState" required>
                     </select>
                 </div><br>   
                 <button type="submit" onclick="signUp()">Sign Up</button>
             </form> 
         </div>
-        <div id="password" style="display: none;">
+        <div class="password display">
             <form name="pinForm" class="form">
-                <input type="password" name="pin" id="pin" placeholder="Enter PIN" onfocusout="checkPin()" maxlength="4" required><span class="tooltip tool-pin">Enter 4 digit pin</span><br>
-                <input type="password" name="confirmPin" id="confirmPin" placeholder="Confirm PIN" maxlength="4" required><br><span id="wrongPassword" style="display: none;"></span>
+                <input type="password" name="pin" id="pin" placeholder="Enter PIN" onfocusout="checkPin()" maxlength="4" required /><span class="tooltip tool-pin">Enter 4 digit pin</span><br>
+                <input type="password" name="confirmPin" id="confirmPin" placeholder="Confirm PIN" maxlength="4" required /><br><span class="wrongPassword display">Password does not match <br></span>
                 <br><button onclick="setPin()">Submit</button>
             </form>
         </div>
-        <div id="login">
+        <div class="login-block">
             <form name="loginForm" class="form">
-                <input type="number" name="accountId" id="accountId" placeholder="Account ID" onfocusout="checkAccountId()" onkeydown="return event.key != 'Enter';" required><span id="acctId" style="display: none;">Account Number should 10 digits<br></span><br>
-                <input type="password" name="loginPin" id="loginPin" placeholder="PIN" title="4 Digit PIN" maxlength="4" required readonly><br><span id="warning" style="display: none;"></span>
+                <input type="number" name="accountId" id="accountId" placeholder="Account ID" onfocusout="checkAccountId()" onkeydown="return event.key != 'Enter';" required /><span class="acctId display">Account Number should 10 digits<br></span><br>
+                <input type="password" name="loginPin" id="loginPin" placeholder="PIN" title="4 Digit PIN" maxlength="4" required readonly /><br><span class="warning display"></span>
                 <br><button type="submit" onclick="login()">Login</button>  
             </form>
         </div>

@@ -19,14 +19,14 @@ h1, h2, h3, h4, h5{
     color: aliceblue;
 }
 
-#nav-left{
+.nav-left{
     display: inline-block;
     height: inherit;
     position: absolute;
     left: 0;
     width: 15%;
 }
-#nav-right{
+.nav-right{
     display: inline-block;
     height: inherit;   
     position: absolute;
@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5{
     width: 25%;
 }
 
-#nav-left button{
+.nav-left button{
     background-color: rgba(0,0,0, 0);;
     height: inherit;
     width: 100%;
@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5{
     opacity: 100%;
     font-size: 1vw;
 }
-#nav-right button, #exit-button{
+.nav-right button, #exit-button{
     height: inherit;
     width: 49%;
     background-color: rgba(0,0,0, 0);
@@ -55,14 +55,19 @@ h1, h2, h3, h4, h5{
     font-size: 1vw;
     right: 0;
 }
-#nav-right button:hover, #nav-left button:hover, #exit-button:hover{
+.nav-right button:hover, .nav-left button:hover, #exit-button:hover{
     color: black;
     background-color: rgba(255, 255, 255, 0.3);
     opacity: 50%;
     cursor: pointer;
 } 
 
-#content, #transaction-block{
+.transaction-bar{
+    all: inherit; 
+    text-align: center;
+}
+
+.content, .transaction-block{
     width: 90%;
     height: 55vh;
     margin: 0;
@@ -73,14 +78,33 @@ h1, h2, h3, h4, h5{
     transform: translate(-50%, -50%);
 }
 
-#savings-tile, #withdraw-tile{
+.content button, .transaction-block button{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(18, 19, 19, 0.4);
+    color: whitesmoke;
+    border: none;
+    border-radius: 10%;
+    font-weight: bolder;
+    opacity: 100%;
+    font-size: 1.5vw;
+}
+
+.content button:hover, .transaction-block button:hover{
+    color: black;
+    background-color: rgba(255, 255, 255, 0.4);
+    opacity: 50%;
+    cursor: pointer;
+}
+
+.savings-tile, .withdraw-tile{
     position: absolute;
     display: inline-block;
     height: 100%;
     width: 40%;
     left: 2%;
 }
-#current-tile, #deposit-tile{
+.current-tile, .deposit-tile{
     position: absolute;
     display: inline-block;
     height: 100%;
@@ -88,7 +112,7 @@ h1, h2, h3, h4, h5{
     right: 2%;
 }
 
-#amount-form, #message{
+.amount-form, .message{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -99,11 +123,11 @@ h1, h2, h3, h4, h5{
     padding: 5%;
 }
 
-#message h1, #message h2, #message h3, #message h4{
+.message h1, .message h2, .message h3, .message h4{
     font-size: 2vw;
 }
 
-#amount-form ::placeholder{
+.amount-form ::placeholder{
     color: white;
     opacity: 80%;
     text-align: center;
@@ -111,7 +135,7 @@ h1, h2, h3, h4, h5{
     font-weight: bolder;
 }
 
-#amount-form input{
+.amount-form input{
     text-align: center;
     margin-bottom: 5%;
     color: aliceblue;
@@ -126,26 +150,7 @@ h1, h2, h3, h4, h5{
     font-size: 1.2vw;
 }
 
-#content button, #transaction-block button{
-    height: 100%;
-    width: 100%;
-    background-color: rgba(18, 19, 19, 0.4);
-    color: whitesmoke;
-    border: none;
-    border-radius: 10%;
-    font-weight: bolder;
-    opacity: 100%;
-    font-size: 1.5vw;
-}
-
-#content button:hover, #transaction-block button:hover{
-    color: black;
-    background-color: rgba(255, 255, 255, 0.4);
-    opacity: 50%;
-    cursor: pointer;
-}
-
-#amount-form button{
+.amount-form button{
     background-color: azure;
     color: black;
     height: 6vh;
@@ -157,14 +162,14 @@ h1, h2, h3, h4, h5{
     border-radius: 20px;
     font-size: 0.9vw;
 }
-#amount-form button:hover{
+.amount-form button:hover{
     background-color: rgb(206, 224, 224);
     opacity: 80%;
     transition: 300ms;
     cursor: pointer;
 }
 
-#my-account{
+.my-account{
     padding: 2%;
     background-color: rgba(5, 24, 37, 0.4);
     width: 20%;
@@ -177,7 +182,24 @@ h1, h2, h3, h4, h5{
     transform: translate(-50%, -50%);
 }
 
-#details{
+.my-account button{
+    background-color: rgba(0, 0, 0, 0.5);
+    color: aliceblue;
+    height: 3vh;
+    width: 100%;
+    font-weight: bold;
+    border: none;
+    font-size: 0.9vw;
+}
+.my-account button:hover{
+    background-color: rgb(206, 224, 224);
+    color: black;
+    opacity: 80%;
+    transition: 100ms;
+    cursor: pointer;
+}
+
+.details{
     padding-top: 5%;
     width: 100%;
     height: 80%;
@@ -186,7 +208,18 @@ h1, h2, h3, h4, h5{
     overflow-x: hidden;
 }
 
-#transactions-block{
+.transaction-history{
+    background-color: rgba(5, 24, 37, 0.4);
+    width: 30%;
+    height: 70vh;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.transactions-block{
     width: 100%;
     height: 100%;
     text-align: center;
@@ -246,7 +279,7 @@ h1, h2, h3, h4, h5{
     cursor: pointer;
 }
 
-#history{
+.history{
     margin-top: 5%;
     margin-bottom: 5%;
     margin-left: 10%;
@@ -257,22 +290,11 @@ h1, h2, h3, h4, h5{
     overflow-x: hidden;
 }
 
-#details::-webkit-scrollbar, #transactions::-webkit-scrollbar, #history::-webkit-scrollbar{
+.details::-webkit-scrollbar, #transactions::-webkit-scrollbar, .history::-webkit-scrollbar{
     width: 0.5px;
 }
-#details::-webkit-scrollbar-thumb, #transactions::-webkit-scrollbar-thumb, #history::-webkit-scrollbar{
+.details::-webkit-scrollbar-thumb, #transactions::-webkit-scrollbar-thumb, .history::-webkit-scrollbar{
     background: rgba(159, 181, 229, 0.4);
-}
-
-#transaction-history{
-    background-color: rgba(5, 24, 37, 0.4);
-    width: 30%;
-    height: 70vh;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .update{
@@ -288,23 +310,14 @@ h1, h2, h3, h4, h5{
     transform: translate(-50%, -50%);
 }
 
-#my-account button{
-    background-color: rgba(0, 0, 0, 0.5);
-    color: aliceblue;
-    height: 3vh;
-    width: 100%;
-    font-weight: bold;
-    border: none;
-    font-size: 0.9vw;
-}
-#my-account button:hover{
-    background-color: rgb(206, 224, 224);
-    color: black;
-    opacity: 80%;
-    transition: 100ms;
-    cursor: pointer;
-}
-
 .display{
     display: none;
+}
+
+.display-left{
+    left: 2%;
+}
+
+.display-right{
+    right: 2%;
 }

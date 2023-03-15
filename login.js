@@ -125,20 +125,22 @@ function signUp() {
     let id = uid();
     currentUser.setUserDetails(id, ...userDetails, accountType, address);  
     console.log(currentUser.details);
-    document.getElementById("signup").style.display = 'none';
-    document.getElementById('block').style.height = '46vh';
-    document.getElementById("hide").style.display = 'none';
-    setTimeout(()=>document.getElementById('password').style.display = '',100);
+    document.getElementsByClassName('signup')[0].classList.add('display');
+    document.getElementsByClassName('block')[0].classList.add('block-height-password');
+    document.getElementsByClassName('block')[0].classList.remove('block-height');
+    document.getElementsByClassName('hide')[0].classList.add('display');
+    setTimeout(() => document.getElementsByClassName('password')[0].classList.remove('display'), 100);
 }
 
 function setPin() {
-    document.getElementById("password").style.display = '';
+    document.getElementsByClassName('password')[0].classList.remove('display');
     let pin = document.getElementById('pin').value;
     let confirmpin = document.getElementById('confirmPin').value;
     
-    if(pin!=confirmpin){
-        document.getElementById('wrongPassword').style.display = '';
-        document.getElementById('wrongPassword').innerHTML = "Password does not match <br>";
+    if(pin == '' || pin != confirmpin){
+        document.getElementsByClassName('wrongPassword')[0].classList.remove('display');
+        document.getElementById('pin').classList.add('wrong-input');
+        document.getElementById('confirmPin').classList.add('wrong-input');
         document.pinForm.setAttribute("onsubmit", "return false;");
     } else {
         currentUser.setUserPin(pin);
@@ -171,10 +173,6 @@ function setPin() {
     }
 }
 
-function disp() {
-    console.log(currentUser.details);
-}
-
 function login() {
 
     let accountID = document.getElementById('accountId').value.toString();
@@ -186,8 +184,9 @@ function login() {
         document.loginForm.setAttribute("action", "dashboard.html");
         document.loginForm.onsubmit = "";
     } else {
-        document.getElementById('warning').style.display = '';
-        document.getElementById('warning').innerHTML = 'Incorrect Pin <br>';
+        document.getElementsByClassName('warning')[0].classList.remove('display');
+        document.getElementsByClassName('warning')[0].innerHTML = 'Incorrect Pin <br>';
+        document.getElementById('loginPin').classList.add('wrong-input');
         document.getElementById('loginPin').value = '';
     }  
 }
@@ -197,16 +196,14 @@ function checkAccountId() {
     if  (accountID.length == 0) {
         return;
     } else if (accountID.length != 10) {
-        document.getElementById('acctId').style.display = '';
-        document.getElementById('accountId').style.backgroundColor = 'rgba(247, 7, 19, 0.4)';
+        document.getElementsByClassName('acctId')[0].classList.remove('display');
+        document.getElementById('accountId').classList.add('wrong-input');
         document.getElementById('accountId').focus();
-        document.getElementById('accountId').style.marginBottom = '1%';
-        document.getElementById('warning').style.display = 'none';
+        document.getElementsByClassName('warning')[0].classList.add('display');
         return;
     } else {
-        document.getElementById('acctId').style.display = 'none';
-        document.getElementById('accountId').style.backgroundColor = 'rgba(159, 181, 229, 0.4);';
-        document.getElementById('accountId').style.marginBottom = '5%';
+        document.getElementsByClassName('acctId')[0].classList.add('display');
+        document.getElementById('accountId').classList.remove('wrong-input');
         let tx = db.transaction('accountDetails', 'readonly');
         tx.oncomplete = (ev) => {
             console.log(ev);
@@ -222,12 +219,12 @@ function checkAccountId() {
             if (user) {
                 currentUser.setUserPin(user.pin);
                 document.getElementById('loginPin').readOnly = false;
-                document.getElementById('warning').innerText = '';
+                document.getElementsByClassName('warning')[0].innerHTML = '';
             } else {
-                document.getElementById('warning').style.display = '';
-                document.getElementById('warning').innerHTML = 'Account Not Found!!<br>';
+                document.getElementsByClassName('warning')[0].classList.remove('display');
+                document.getElementsByClassName('warning')[0].innerHTML = 'Account Not Found!!<br>';
                 document.getElementById('accountId').value = '';
-                document.getElementById('accountId').style.backgroundColor = 'rgba(247, 7, 19, 0.4)';
+                document.getElementById('accountId').classList.add('account-id-incorrect');
                 document.getElementById('accountId').focus(); 
             }    
         };
@@ -238,18 +235,17 @@ function checkAccountId() {
 }
 
 function createAccount() {
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('block').style.height = '90vh';
-    document.getElementById('block').style.transition = '0.5s';
-    setTimeout(()=>document.getElementById('signup').style.display = '',200);
+    document.getElementsByClassName('login-block')[0].classList.add('display');
+    document.getElementsByClassName('block')[0].classList.add('block-height');
+    setTimeout(() => document.getElementsByClassName('signup')[0].classList.remove('display'), 200);
     document.getElementById('loginPage').classList.remove('login');
     document.getElementById('SignUpPage').classList.add('login');
 }
 
 function loginPage() {
-    document.getElementById('signup').style.display = 'none';
-    document.getElementById('block').style.height = '55vh';
-    setTimeout(()=>document.getElementById('login').style.display = '',25);
+    document.getElementsByClassName('signup')[0].classList.add('display');
+    document.getElementsByClassName('block')[0].classList.remove('block-height');
+    setTimeout(() => document.getElementsByClassName('login-block')[0].classList.remove('display'), 25);
     document.getElementById('loginPage').classList.add('login');
     document.getElementById('SignUpPage').classList.remove('login');
 }

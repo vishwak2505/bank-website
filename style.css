@@ -8,11 +8,15 @@ label{
     font-size: 1vw;
 }
 
+span{
+    font-size: 1vw;
+}
+
 .tooltip{
     visibility: hidden;
     width: max-content;
     background-color: rgba(0, 0, 0, 0.4);
-    color: #fff;
+    color: rgb(255, 255, 255);
     text-align: center;
     border-radius: 6px;
     padding: 5px 10px;
@@ -156,8 +160,7 @@ input::-webkit-inner-spin-button {
     border-bottom: solid 1px;
 }
 
-/* ID */
-#bg-img1{
+.bg-img1{
     width: 100%;
     height: 20vh;
     background-image: url("Bank.webp");
@@ -166,7 +169,7 @@ input::-webkit-inner-spin-button {
     background-size: cover;
 }
 
-#block{
+.block{
     background-color: rgba(5, 24, 37, 0.4);
     width: 20%;
     height: 55vh;
@@ -176,20 +179,20 @@ input::-webkit-inner-spin-button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transition: 0.5s;
 }
 
-#signup{
-    width: 100%;
-    text-align: center;
+.block-height{
+    height: 90vh !important;
+    transition: 0.5s;
 }
 
-#password{
-    width: 100%;
-    height: min-content;
-    text-align: center;
+.block-height-password{
+    height: 46vh !important;
+    transition: 0.5s;
 }
 
-#login{
+.password{
     width: 100%;
     height: min-content;
     text-align: center;
@@ -205,5 +208,13 @@ input::-webkit-inner-spin-button {
 }
 
 .display{
-    display: none;
+    display: none !important;
+}
+
+.wrong-input{
+    background-color: rgba(247, 7, 19, 0.4) !important;
+}
+.account-id-incorrect{
+    background-color: rgba(247, 7, 19, 0.4) !important;
+    margin-bottom: 5% !important;
 }

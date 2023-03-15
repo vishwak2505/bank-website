@@ -11,69 +11,69 @@
 <body>
     <div class="bg-img"></div>
     <div class="nav-bar">
-        <div id="home-bar" style="all: inherit;">
-            <div id="nav-left">
+        <div class="home-bar" style="all: inherit;">
+            <div class="nav-left">
                 <button id="acct-button" onclick="myAccount()">My Account</button>
             </div>
-            <div id="nav-right">
+            <div class="nav-right">
                 <button id="trans-button" onclick="transactionHistory()">Transaction History</button>
                 <a id="logout" href="" style="display: inline-block; height: 100%; width: 49%;"><button onclick="logout()" style="width: 100%;">Logout</button></a>
             </div>
         </div>
-        <div id="transaction-bar" style="all: inherit; text-align: center; display: none;"><span id="text"></span><button id="exit-button" style="position: absolute; width: 25%;" onclick="location.reload()">Exit</button></div>
+        <div class="transaction-bar display"><span id="text"></span><button id="exit-button" style="position: absolute; width: 25%;" onclick="location.reload()">Exit</button></div>
     </div>
-    <div id="my-account" style="display: none;">
+    <div class="my-account display">
         <img src="/pngfind.com-bite-mark-png-631239.png" style="width: 20%;" alt="profile">
-        <div id="details"></div>
+        <div class="details"></div>
         <button onclick="updateDetails()">UPDATE</button>
     </div>
     <div class="update display">
         <form action="#" name="updateForm" class="form" onsubmit="return false;">
-                <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10" required><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
-                <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" required><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
-                <input type="checkbox" name="savings" id="savings"><label for="savings">Savings</label><input type="checkbox" name="current" id="current"><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
-                <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" placeholder="Door Number" required> 
+                <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
+                <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
+                <input type="checkbox" name="savings" id="savings" /><label for="savings">Savings</label><input type="checkbox" name="current" id="current" /><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
+                <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" placeholder="Door Number" required /> 
                 <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name" required><br> 
-                <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" required><br>
-                <input type="text" name="addressArea" id="addressArea" placeholder="Area" required><br>
-                <input type="text" name="addressCity" id="addressCity" placeholder="City" required><br> 
+                <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" required /><br>
+                <input type="text" name="addressArea" id="addressArea" placeholder="Area" required /><br>
+                <input type="text" name="addressCity" id="addressCity" placeholder="City" required /><br> 
                 <button type="submit" onclick="update()">UPDATE</button>
         </form> 
     </div>
-    <div id="transaction-history" style="display: none;">
-        <div id="transactions-block">
+    <div class="transaction-history display">
+        <div class="transactions-block">
             <div class="transactions-bar">
                 <h3>Transaction History</h3>
             </div>
-            <div id="history"></div>
+            <div class="history"></div>
             <div class="transactions-footer">
-                <input type="text" name="startDate" id="startDate" onfocus="(this.type='date')" onblur="(this.type='text')" max="" placeholder="From"><button onclick="transactionSummary()">Update</button><input type="text" name="endDate" id="endDate" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="To">
+                <input type="text" name="startDate" id="startDate" onfocus="(this.type='date')" onblur="(this.type='text')" max="" placeholder="From" /><button onclick="transactionSummary()">Update</button><input type="text" name="endDate" id="endDate" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="To" />
             </div>     
         </div>
     </div>
-    <div id="content">
-        <div id="savings-tile">
+    <div class="content">
+        <div class="savings-tile">
             <button onclick="savings()">Savings</button>
         </div>
-        <div id="current-tile">
+        <div class="current-tile">
             <button onclick="current()">Current</button>
         </div>
     </div>
-    <div id="transaction-block" style="display: none;">
-        <div id="withdraw-tile">
+    <div class="transaction-block display">
+        <div class="withdraw-tile">
             <button onclick="withdraw()">Withdraw</button>
         </div>
-        <div id="amount-form" style="display: none;">
+        <div class="amount-form display">
             <form onsubmit="return false;">
-                <input type="number" name="amount" id="amount" placeholder="Enter Amount"><br>
-                <input type="password" name="pin" id="pin" placeholder="Pin" maxlength="4" onfocusout="checkPinTrans()"><br><span id="wrongPin" style="display: none;">Incorrect Pin <br></span><br>  
+                <input type="number" name="amount" id="amount" placeholder="Enter Amount" onfocusout="checkAmount()" required /><br>
+                <input type="password" name="pin" id="pin" placeholder="Pin" maxlength="4" onfocusout="checkPinTrans()" required /><br><span class="wrongPin display">Incorrect Pin <br></span><br>  
                 <button onclick="validateTransaction()">Submit</button>
             </form>
         </div>
-        <div id="deposit-tile">
+        <div class="deposit-tile">
             <button onclick="deposit()">Deposit</button>
         </div>
-        <div id="message" style="display: none;">
+        <div class="message display">
 
         </div>
     </div>
