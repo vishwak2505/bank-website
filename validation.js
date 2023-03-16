@@ -52,15 +52,12 @@ function checkPinTrans() {
 function checkAccount() {
     if (document.getElementById('savings').checked == false && document.getElementById('current').checked == false) {
         document.getElementsByClassName('tool-account')[0].classList.add('tool-tip-disp');
-        document.getElementsByClassName('tool-account')[0].classList.remove('tool-account');
         setTimeout(() => { 
-            document.getElementsByClassName('tool-tip-disp')[0].classList.add('tool-account');
-            document.getElementsByClassName('tool-tip-disp')[0].classList.remove('tool-tip-disp');
+            document.getElementsByClassName('tool-account')[0].classList.remove('tool-tip-disp');
         }, 2000);
         return;
     }
-    document.getElementsByClassName('tool-tip-disp')[0].classList.add('tool-account');
-    document.getElementsByClassName('tool-tip-disp')[0].classList.remove('tool-tip-disp');
+    document.getElementsByClassName('tool-account')[0].classList.remove('tool-tip-disp');
 }
 
 function condition(name, toolName, flag) {
@@ -68,10 +65,8 @@ function condition(name, toolName, flag) {
         document.getElementById(name).classList.add('wrong-input');
         document.getElementById(name).focus();
         document.getElementsByClassName(toolName)[0].classList.add('tool-tip-disp');
-        document.getElementsByClassName(toolName)[0].classList.remove(toolName);
         setTimeout(() => { 
-            document.getElementsByClassName('tool-tip-disp')[0].classList.add(toolName);
-            document.getElementsByClassName('tool-tip-disp')[0].classList.remove('tool-tip-disp');
+            document.getElementsByClassName(toolName)[0].classList.remove('tool-tip-disp');
         }, 2000);
         return;
     }

@@ -135,6 +135,7 @@ function deposit() {
     document.getElementsByClassName('amount-form')[0].classList.add('display-left');
     document.getElementsByClassName('amount-form')[0].classList.remove('display');
     document.getElementsByClassName('message')[0].classList.add('display-left');
+    document.getElementById('amount').focus();
     withdrawMoney = false;
 }
 
@@ -144,6 +145,7 @@ function withdraw() {
     document.getElementsByClassName('amount-form')[0].classList.add('display-right');
     document.getElementsByClassName('amount-form')[0].classList.remove('display');
     document.getElementsByClassName('message')[0].classList.add('display-right');
+    document.getElementById('amount').focus();
     withdrawMoney = true;
 }
 
@@ -434,6 +436,11 @@ function update() {
     for (child of tags) {
         if (child.tagName == 'INPUT') {
             if (child.name.indexOf('address') != -1) {
+                if (child.value == '') {
+                    child.classList.add('wrong-input');
+                    return;
+                }
+                child.classList.remove('wrong-input');
                 address.push(child.value);
                 continue;
             }
@@ -449,6 +456,11 @@ function update() {
                 }
                 continue;
             }
+            if (child.value == '') {
+                child.classList.add('wrong-input');
+                return;
+            }
+            child.classList.remove('wrong-input');
             if (child.name == 'contact') {
                 contact = child.value;
             }

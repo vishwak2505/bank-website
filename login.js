@@ -95,12 +95,18 @@ const IDB = (function init() {
 function signUp() {
     let form = document.getElementById("SignUpForm");
     let tags = form.children;    
+    let count = 0;
     let userDetails = [];
     let accountType = { savings: false, current: false};
     let address = [];
     for (child of tags) {
         if (child.tagName == 'INPUT') {
             if (child.name.indexOf('address') != -1) {
+                if (child.value == '') {
+                    child.classList.add('wrong-input');
+                    return;
+                }
+                child.classList.remove('wrong-input');
                 address.push(child.value);
                 continue;
             }
@@ -116,6 +122,11 @@ function signUp() {
                 }
                 continue;
             }
+            if (child.value == '') {
+                child.classList.add('wrong-input');
+                return;
+            }
+            child.classList.remove('wrong-input');
             userDetails.push(child.value);
         }
         if (child.tagName == 'SELECT') {
@@ -240,6 +251,7 @@ function createAccount() {
     setTimeout(() => document.getElementsByClassName('signup')[0].classList.remove('display'), 200);
     document.getElementById('loginPage').classList.remove('login');
     document.getElementById('SignUpPage').classList.add('login');
+    document.getElementById('accountId').focus();
 }
 
 function loginPage() {
@@ -248,5 +260,6 @@ function loginPage() {
     setTimeout(() => document.getElementsByClassName('login-block')[0].classList.remove('display'), 25);
     document.getElementById('loginPage').classList.add('login');
     document.getElementById('SignUpPage').classList.remove('login');
+    document.getElementById('name').focus();
 }
 

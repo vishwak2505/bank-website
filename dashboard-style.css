@@ -15,8 +15,9 @@ h1, h2, h3, h4, h5{
     z-index: 1;
 }
 
-#nav-bar h2{
+.nav-bar h2{
     color: aliceblue;
+    font-size: 1.2vw;
 }
 
 .nav-left{
