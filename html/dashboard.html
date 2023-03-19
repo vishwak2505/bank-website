@@ -4,43 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/dashboard-style.css">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/javascript/dashboard.js"></script>
+    <script src="/javascript/validation.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
-    <div class="bg-img"></div>
+    <div class="background-img"></div>
     <div class="nav-bar">
-        <div class="home-bar" style="all: inherit;">
+        <div class="home-bar">
             <div class="nav-left">
                 <button id="acct-button" onclick="myAccount()">My Account</button>
             </div>
             <div class="nav-right">
                 <button id="trans-button" onclick="transactionHistory()">Transaction History</button>
-                <a id="logout" href="" style="display: inline-block; height: 100%; width: 49%;"><button onclick="logout()" style="width: 100%;">Logout</button></a>
+                <a id="logout" href="" class="logout-button"><button onclick="logout()">Logout</button></a>
             </div>
         </div>
-        <div class="transaction-bar display"><span id="text"></span><button id="exit-button" style="position: absolute; width: 25%;" onclick="location.reload()">Exit</button></div>
+        <div class="transaction-bar display-item"><span id="text"></span><button class="exit-button" onclick="location.reload()">Exit</button></div>
     </div>
-    <div class="my-account display">
-        <img src="/pngfind.com-bite-mark-png-631239.png" style="width: 20%;" alt="profile">
+    <div class="my-account display-item">
+        <img src="/images/account.png" class="account-image" alt="profile">
         <div class="details"></div>
         <button onclick="updateDetails()">UPDATE</button>
     </div>
-    <div class="update display">
+    <div class="update display-item">
         <form action="#" name="updateForm" class="form" onsubmit="return false;">
-                <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
-                <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
-                <input type="checkbox" name="savings" id="savings" /><label for="savings">Savings</label><input type="checkbox" name="current" id="current" /><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
-                <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" placeholder="Door Number" required /> 
-                <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name" required><br> 
-                <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" required /><br>
-                <input type="text" name="addressArea" id="addressArea" placeholder="Area" required /><br>
-                <input type="text" name="addressCity" id="addressCity" placeholder="City" required /><br> 
+                <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" class="form-input" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
+                <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" class="form-input" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
+                <input type="checkbox" name="savings" class="form-checkbox" id="savings" /><label for="savings">Savings</label><input type="checkbox" name="current" id="current" class="form-checkbox" /><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
+                <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" class="form-input" placeholder="Door Number" required /> 
+                <input type="text" name="addressHouseName" id="addressHouseName" class="form-input" placeholder="House Name" required><br> 
+                <input type="text" name="addressStreet" id="addressStreet" class="form-input" placeholder="Street Name" required /><br>
+                <input type="text" name="addressArea" id="addressArea" class="form-input" placeholder="Area" required /><br>
+                <input type="text" name="addressCity" id="addressCity" class="form-input" placeholder="City" required /><br> 
                 <button type="submit" onclick="update()">UPDATE</button>
         </form> 
     </div>
-    <div class="transaction-history display">
+    <div class="transaction-history display-item">
         <div class="transactions-block">
             <div class="transactions-bar">
                 <h3>Transaction History</h3>
@@ -59,25 +61,23 @@
             <button onclick="current()">Current</button>
         </div>
     </div>
-    <div class="transaction-block display">
+    <div class="transaction-block display-item">
         <div class="withdraw-tile">
             <button onclick="withdraw()">Withdraw</button>
         </div>
-        <div class="amount-form display">
+        <div class="amount-form display-item">
             <form onsubmit="return false;">
                 <input type="number" name="amount" id="amount" placeholder="Enter Amount" onfocusout="checkAmount()" required /><br>
-                <input type="password" name="pin" id="pin" placeholder="Pin" maxlength="4" onfocusout="checkPinTrans()" required /><br><span class="wrongPin display">Incorrect Pin <br></span><br>  
+                <input type="password" name="pin" id="pin" placeholder="Pin" maxlength="4" onfocusout="checkPinTrans()" required /><br><span class="wrong-pin display-item">Incorrect Pin <br></span><br>  
                 <button onclick="validateTransaction()">Submit</button>
             </form>
         </div>
         <div class="deposit-tile">
             <button onclick="deposit()">Deposit</button>
         </div>
-        <div class="message display">
+        <div class="message display-item">
 
         </div>
     </div>
-    <script src="/dashboard.js"></script>
-    <script src="/validation.js"></script>
 </body>
 </html>

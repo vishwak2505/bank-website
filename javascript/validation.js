@@ -23,14 +23,14 @@ function checkPin() {
 function checkAmount() {
     let amount = Number(document.getElementById('amount').value);
     if (amount == 0) {
-        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
-        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter Valid Amount <br>';
+        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter Valid Amount <br>';
         document.getElementById('amount').value = '';
         document.getElementById('amount').focus();
         document.getElementById('amount').classList.add('wrong-input');
     } else if (amount > 50000) {
-        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
-        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter Amount Less than 50,000<br>';
+        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter Amount Less than 50,000<br>';
         document.getElementById('amount').value = '';
         document.getElementById('amount').focus();
         document.getElementById('amount').classList.add('wrong-input');
@@ -40,8 +40,8 @@ function checkAmount() {
 function checkPinTrans() {
     let pin = document.getElementById('pin').value;
     if (pin.length != 4) {
-        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
-        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter 4 digit Pin <br>';
+        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter 4 digit Pin <br>';
         document.getElementById('pin').value = '';
         document.getElementById('pin').focus();
         document.getElementById('pin').classList.add('wrong-input');

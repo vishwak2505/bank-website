@@ -60,43 +60,41 @@ let currentUser = new User();
 let withdrawMoney = true;
 let savingsAccount = true;
 
+function dbEvent() {
+    DBOpenReq.addEventListener('error', (err) => {
+        
+    });
+    DBOpenReq.addEventListener('success', (ev) => {
+        db = ev.target.result;
+        let dbTransaction = db.transaction('accountDetails', 'readonly');
+        dbTransaction.oncomplete = (ev) => {
+        };
+        dbTransaction.onerror = (err) => {
+        }
+        let acct = dbTransaction.objectStore('accountDetails');
+        let request = acct.get(localStorage.getItem('currentUserId'));
+        request.onsuccess = (ev) => {
+            let user = request.result;
+            currentUser.setUserDetails(user.id, user.name, user.dob, user.contact, user.mail, user.accountType, user.balance, user.homeaddress, user.pin, user.transactions);
+        };
+        request.onerror = (err) => {
+        };
+    });
+    DBOpenReq.addEventListener('upgradeneeded', (ev) => {
+        db = ev.target.result; 
+        if( !db.objectStoreNames.contains('accountDetails')){
+            objectStore = db.createObjectStore('accountDetails', {
+                keyPath: 'id'
+            });
+        }
+    });
+}
 
 const IDB = (function init() {
-
     if (localStorage.getItem('currentUserId') == '') {
         window.location.replace('index.html');
     } else {
-
-        DBOpenReq.addEventListener('error', (err) => {
-        
-        });
-        DBOpenReq.addEventListener('success', (ev) => {
-            db = ev.target.result;
-            let tx = db.transaction('accountDetails', 'readonly');
-            tx.oncomplete = (ev) => {
-                console.log(ev);
-            };
-            tx.onerror = (err) => {
-                console.warn(err);
-            }
-            let acct = tx.objectStore('accountDetails');
-            let request = acct.get(localStorage.getItem('currentUserId'));
-            request.onsuccess = (ev) => {
-                let user = request.result;
-                currentUser.setUserDetails(user.id, user.name, user.dob, user.contact, user.mail, user.accountType, user.balance, user.homeaddress, user.pin, user.transactions);
-            };
-            request.onerror = (err) => {
-                console.log('error');
-            };
-        });
-        DBOpenReq.addEventListener('upgradeneeded', (ev) => {
-            db = ev.target.result; 
-            if( !db.objectStoreNames.contains('accountDetails')){
-                objectStore = db.createObjectStore('accountDetails', {
-                    keyPath: 'id'
-                });
-            }
-        });
+        dbEvent();
     } 
 
 })();
@@ -107,11 +105,11 @@ function savings() {
         alert('This account is not linked with savings');
         return;
     }
-    document.getElementsByClassName('content')[0].classList.add('display');
-    document.getElementsByClassName('home-bar')[0].classList.add('display');
-    document.getElementsByClassName('transaction-bar')[0].classList.remove('display');
+    document.getElementsByClassName('content')[0].classList.add('display-item');
+    document.getElementsByClassName('home-bar')[0].classList.add('display-item');
+    document.getElementsByClassName('transaction-bar')[0].classList.remove('display-item');
     document.getElementById('text').innerHTML = '<h2>Savings Account</h2>';
-    document.getElementsByClassName('transaction-block')[0].classList.remove('display');
+    document.getElementsByClassName('transaction-block')[0].classList.remove('display-item');
     savingsAccount = true;
 }
 
@@ -121,45 +119,45 @@ function current() {
         alert('This account is not linked with current');
         return;
     }
-    document.getElementsByClassName('content')[0].classList.add('display');
-    document.getElementsByClassName('home-bar')[0].classList.add('display');
-    document.getElementsByClassName('transaction-bar')[0].classList.remove('display');
+    document.getElementsByClassName('content')[0].classList.add('display-item');
+    document.getElementsByClassName('home-bar')[0].classList.add('display-item');
+    document.getElementsByClassName('transaction-bar')[0].classList.remove('display-item');
     document.getElementById('text').innerHTML = '<h2>Current Account</h2>';
-    document.getElementsByClassName('transaction-block')[0].classList.remove('display');
+    document.getElementsByClassName('transaction-block')[0].classList.remove('display-item');
     savingsAccount = false;
 }
 
 function deposit() {
-    document.getElementsByClassName('withdraw-tile')[0].classList.add('display');
+    document.getElementsByClassName('withdraw-tile')[0].classList.add('display-item');
     document.getElementById('text').innerHTML = '<h2>Deposit</h2>';
     document.getElementsByClassName('amount-form')[0].classList.add('display-left');
-    document.getElementsByClassName('amount-form')[0].classList.remove('display');
+    document.getElementsByClassName('amount-form')[0].classList.remove('display-item');
     document.getElementsByClassName('message')[0].classList.add('display-left');
     document.getElementById('amount').focus();
     withdrawMoney = false;
 }
 
 function withdraw() {
-    document.getElementsByClassName('deposit-tile')[0].classList.add('display');
+    document.getElementsByClassName('deposit-tile')[0].classList.add('display-item');
     document.getElementById('text').innerHTML = '<h2>Withdraw</h2>';
     document.getElementsByClassName('amount-form')[0].classList.add('display-right');
-    document.getElementsByClassName('amount-form')[0].classList.remove('display');
+    document.getElementsByClassName('amount-form')[0].classList.remove('display-item');
     document.getElementsByClassName('message')[0].classList.add('display-right');
     document.getElementById('amount').focus();
     withdrawMoney = true;
 }
 
 function myAccount() {
-    if ( document.getElementsByClassName('my-account')[0].classList.contains('display') ) {
-        document.getElementsByClassName('update')[0].classList.add('display');
-        document.getElementsByClassName('my-account')[0].classList.remove('display');
-        document.getElementsByClassName('content')[0].classList.add('display');
-        document.getElementsByClassName('transaction-history')[0].classList.add('display');
+    if ( document.getElementsByClassName('my-account')[0].classList.contains('display-item') ) {
+        document.getElementsByClassName('update')[0].classList.add('display-item');
+        document.getElementsByClassName('my-account')[0].classList.remove('display-item');
+        document.getElementsByClassName('content')[0].classList.add('display-item');
+        document.getElementsByClassName('transaction-history')[0].classList.add('display-item');
         document.getElementById('acct-button').innerText = 'Home';
         document.getElementById('trans-button').innerText = 'Transaction History';
     } else {
-        document.getElementsByClassName('my-account')[0].classList.add('display');
-        document.getElementsByClassName('content')[0].classList.remove('display');
+        document.getElementsByClassName('my-account')[0].classList.add('display-item');
+        document.getElementsByClassName('content')[0].classList.remove('display-item');
         document.getElementById('acct-button').innerText = 'My Account';
     }
 
@@ -199,7 +197,18 @@ function myAccount() {
         }
     }
     document.getElementsByClassName('details')[0].innerHTML = details;
-    console.log(currentUser.details);
+}
+
+function transactionDetails(filterUser) {
+    let details = '';
+    for (index in filterUser) {
+        if (typeof(filterUser[index]) == 'object') {
+            details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
+                        <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
+                        <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
+        }   
+    }
+    return details;
 }
 
 function transactionSummary() {
@@ -211,39 +220,15 @@ function transactionSummary() {
 
     if (start != '' && end != '') {
         filterUser = user.filter((item) => { return (item['date'] <= end && item['date'] >= start )});
-        for (index in filterUser) {
-            if (typeof(filterUser[index]) == 'object') {
-                details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
-                            <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
-                            <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
-            }   
-        }   
+        details = transactionDetails(filterUser);
     } else if (start != '') {
         filterUser = user.filter((item) => item['date'] >= start );
-        for (index in filterUser) {
-            if (typeof(filterUser[index]) == 'object') {
-                details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
-                            <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
-                            <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
-            }   
-        } 
+        details = transactionDetails(filterUser); 
     } else if (end != '') {
         filterUser = user.filter((item) => item['date'] <= end );
-        for (index in filterUser) {
-            if (typeof(filterUser[index]) == 'object') {
-                details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
-                            <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
-                            <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
-            }   
-        } 
+        details = transactionDetails(filterUser); 
     } else {
-        for (index in user) {
-            if (typeof(user[index]) == 'object') {
-                details = `<h4>Day: ${user[index].date}</h4><h4>Time: ${user[index].time}</h4><br>
-                            <h4>Transaction: ${user[index].transaction}</h4><h4>Amount: ${user[index].amount}</h4><br>
-                            <h4>Account: ${user[index].account}</h4><h4>Balance: ${user[index].balance}</h4><hr>` + details;
-            }
-        }
+        details = transactionDetails(filterUser);
     }
 
     if (details == '') {
@@ -256,15 +241,15 @@ function transactionSummary() {
 function transactionHistory() {
     let user = currentUser.details.transactions;
     let details = '';
-    if ( document.getElementsByClassName('transaction-history')[0].classList.contains('display')) {
-        document.getElementsByClassName('transaction-history')[0].classList.remove('display');
-        document.getElementsByClassName('my-account')[0].classList.add('display');
-        document.getElementsByClassName('content')[0].classList.add('display');
+    if ( document.getElementsByClassName('transaction-history')[0].classList.contains('display-item')) {
+        document.getElementsByClassName('transaction-history')[0].classList.remove('display-item');
+        document.getElementsByClassName('my-account')[0].classList.add('display-item');
+        document.getElementsByClassName('content')[0].classList.add('display-item');
         document.getElementById('trans-button').innerText = 'Home';
         document.getElementById('acct-button').innerText = 'My Account';
     } else {
-        document.getElementsByClassName('transaction-history')[0].classList.add('display');
-        document.getElementsByClassName('content')[0].classList.remove('display');
+        document.getElementsByClassName('transaction-history')[0].classList.add('display-item');
+        document.getElementsByClassName('content')[0].classList.remove('display-item');
         document.getElementById('trans-button').innerText = 'Transaction History';
     }
 
@@ -288,12 +273,12 @@ let count = 3;
 function validateTransaction() {
     let user = currentUser.details;
     let amount = document.getElementById('amount').value;
-    amount = Number(amount);
+    amount = +amount;
     let pin = document.getElementById('pin').value;
     let transSuccess = false;
     if (amount == '') {
-        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
-        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Enter Amount <br>';
+        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter Amount <br>';
         document.getElementById('amount').value = '';
         document.getElementById('amount').focus();
         document.getElementById('amount').classList.add('wrong-input');
@@ -305,8 +290,8 @@ function validateTransaction() {
             window.location.replace('index.html');
             return;
         }
-        document.getElementsByClassName('wrongPin')[0].classList.remove('display');
-        document.getElementsByClassName('wrongPin')[0].innerHTML = 'Incorrect Pin <br>';
+        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Incorrect Pin <br>';
         document.getElementById('pin').value = '';
         document.getElementById('pin').focus();
         document.getElementById('pin').classList.add('wrong-input');
@@ -316,8 +301,8 @@ function validateTransaction() {
     count = 3;
     let account = 'savings';
     let transaction = '';
-    document.getElementById('exit-button').classList.add('display');
-    document.getElementsByClassName('amount-form')[0].classList.add('display');
+    document.getElementsByClassName('exit-button')[0].classList.add('display-item');
+    document.getElementsByClassName('amount-form')[0].classList.add('display-item');
     if (!savingsAccount) { account = 'current';}
     if (withdrawMoney) {
         if (user.balance[account] > (amount)) {
@@ -325,7 +310,7 @@ function validateTransaction() {
             transaction = 'Withdraw';
             transSuccess = true;
         } else {
-            document.getElementsByClassName('message')[0].classList.remove('display');
+            document.getElementsByClassName('message')[0].classList.remove('display-item');
             document.getElementsByClassName('message')[0].innerHTML = '<h2>Transaction Unsuccessfull! Insuffiecient Balance</h2> <h2>Balance: ' + user.balance[account] + '</h2>';
         }
     } else {
@@ -334,7 +319,7 @@ function validateTransaction() {
             transSuccess = true;
     }
     if (transSuccess) {
-        document.getElementsByClassName('message')[0].classList.remove('display');
+        document.getElementsByClassName('message')[0].classList.remove('display-item');
         document.getElementsByClassName('message')[0].innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[account] + '</h2>';    
         let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
         let time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
@@ -347,24 +332,20 @@ function validateTransaction() {
             balance: user.balance[account],
             account,
         });
-        console.log(user.transactions);
         currentUser.updateTransaction(user.balance, user.transactions);
-        let tx = db.transaction('accountDetails', 'readwrite');
-        tx.oncomplete = (ev) => {
-            console.log(ev);
+        let dbTransaction = db.transaction('accountDetails', 'readwrite');
+        dbTransaction.oncomplete = (ev) => {
         };
-        tx.onerror = (err) => {
-            console.warn(err);
+        dbTransaction.onerror = (err) => {
+            console.error(err);
         }
 
-        let acct = tx.objectStore('accountDetails'); 
+        let acct = dbTransaction.objectStore('accountDetails'); 
         let request = acct.put(user);  
 
         request.onsuccess = (ev) => {
-            console.log('success');
         };
         request.onerror = (err) => {
-            console.log('error');
         };   
     }
     setTimeout(() => window.location.replace('dashboard.html') , 2000);
@@ -376,10 +357,10 @@ function logout() {
 }
 
 function updateDetails(){
-    document.getElementsByClassName('update')[0].classList.remove('display');
-    document.getElementsByClassName('my-account')[0].classList.add('display');
-    document.getElementsByClassName('home-bar')[0].classList.add('display');
-    document.getElementsByClassName('transaction-bar')[0].classList.remove('display');
+    document.getElementsByClassName('update')[0].classList.remove('display-item');
+    document.getElementsByClassName('my-account')[0].classList.add('display-item');
+    document.getElementsByClassName('home-bar')[0].classList.add('display-item');
+    document.getElementsByClassName('transaction-bar')[0].classList.remove('display-item');
     let form = document.getElementsByClassName('form')[0];
     let tags = form.children;    
     let user = currentUser.details;
@@ -387,27 +368,32 @@ function updateDetails(){
     let address = user.homeaddress;
     for (child of tags) {
         if (child.tagName == 'INPUT') {
-            if (child.name == 'contact') {
-                child.value = Number(user.contact);
+            switch (child.name) {
+                case 'contact':
+                    child.value = +user.contact;
+                    break;
+                case 'mail':
+                    child.value = user.mail;
+                    break;
+                case 'addressDoor':
+                    child.value = address[0];
+                    break;
+                case 'addressHouseName':
+                    child.value = address[1];
+                    break;
+                case 'addressStreet':
+                    child.value = address[2];
+                    break;
+                case 'addressArea':
+                    child.value = address[3];
+                    break;  
+                case 'addressCity':
+                    child.value = address[4];
+                    break;        
+                default:
+                    break;
             }
-            if (child.name == 'mail') {
-                child.value = user.mail;
-            }
-            if (child.name == 'addressDoor') {
-                child.value = address[0];
-            }
-            if (child.name == 'addressHouseName') {
-                child.value = address[1];
-            }      
-            if (child.name == 'addressStreet') {
-                child.value = address[2];
-            }
-            if (child.name == 'addressArea') {
-                child.value = address[3]; 
-            }
-            if (child.name == 'addressCity') {
-                child.value = address[4];
-            }             
+
             if (child.name == 'savings') {
                 if (account.savings) {
                     child.checked = true;
@@ -425,8 +411,8 @@ function updateDetails(){
 }
 
 function update() {
-    document.getElementsByClassName('home-bar')[0].classList.remove('display');
-    document.getElementsByClassName('transaction-bar')[0].classList.add('display');
+    document.getElementsByClassName('home-bar')[0].classList.remove('display-item');
+    document.getElementsByClassName('transaction-bar')[0].classList.add('display-item');
     let form = document.getElementsByClassName('form')[0];
     let tags = form.children;    
     let contact = '';
@@ -472,22 +458,19 @@ function update() {
     address.push(currentUser.details.homeaddress[5]);
     currentUser.updateAccount(address, accountType, contact, mail);
     let user = currentUser.details;
-    let tx = db.transaction('accountDetails', 'readwrite');
-    tx.oncomplete = (ev) => {
-        console.log(ev);
+    let dbTransaction = db.transaction('accountDetails', 'readwrite');
+    dbTransaction.oncomplete = (ev) => {
     };
-    tx.onerror = (err) => {
-        console.warn(err);
+    dbTransaction.onerror = (err) => {
+        console.error(err);
     }
 
-    let acct = tx.objectStore('accountDetails'); 
+    let acct = dbTransaction.objectStore('accountDetails'); 
     let request = acct.put(user);  
 
     request.onsuccess = (ev) => {
-        console.log('success');
     };
     request.onerror = (err) => {
-        console.log('error');
     };
     myAccount(); 
 }

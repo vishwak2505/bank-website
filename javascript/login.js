@@ -70,11 +70,7 @@ async function getState(file) {
     }); 
 }
 
-const IDB = (function init() {
-
-    getState('/country');
-    localStorage.setItem('currentUserId', '');
-
+function dbEvent() {
     DBOpenReq.addEventListener('error', (err) => {
         
     });
@@ -90,12 +86,18 @@ const IDB = (function init() {
         }
 
     });
+}
+
+const IDB = (function init() {
+    getState('/country');
+    localStorage.setItem('currentUserId', '');
+    dbEvent();
 })();
 
 function signUp() {
     let form = document.getElementById("SignUpForm");
-    let tags = form.children;    
-    let count = 0;
+    let tags = form.children;
+    let wrongInput = 'wrong-input';
     let userDetails = [];
     let accountType = { savings: false, current: false};
     let address = [];
@@ -103,10 +105,10 @@ function signUp() {
         if (child.tagName == 'INPUT') {
             if (child.name.indexOf('address') != -1) {
                 if (child.value == '') {
-                    child.classList.add('wrong-input');
+                    child.classList.add(wrongInput);
                     return;
                 }
-                child.classList.remove('wrong-input');
+                child.classList.remove(wrongInput);
                 address.push(child.value);
                 continue;
             }
@@ -123,10 +125,10 @@ function signUp() {
                 continue;
             }
             if (child.value == '') {
-                child.classList.add('wrong-input');
+                child.classList.add(wrongInput);
                 return;
             }
-            child.classList.remove('wrong-input');
+            child.classList.remove(wrongInput);
             userDetails.push(child.value);
         }
         if (child.tagName == 'SELECT') {
@@ -134,22 +136,21 @@ function signUp() {
         }
     }
     let id = uid();
-    currentUser.setUserDetails(id, ...userDetails, accountType, address);  
-    console.log(currentUser.details);
-    document.getElementsByClassName('signup')[0].classList.add('display');
+    currentUser.setUserDetails(id, ...userDetails, accountType, address); 
+    document.getElementsByClassName('signup')[0].classList.add('display-item');
     document.getElementsByClassName('block')[0].classList.add('block-height-password');
     document.getElementsByClassName('block')[0].classList.remove('block-height');
-    document.getElementsByClassName('hide')[0].classList.add('display');
-    setTimeout(() => document.getElementsByClassName('password')[0].classList.remove('display'), 100);
+    document.getElementsByClassName('hide')[0].classList.add('display-item');
+    setTimeout(() => document.getElementsByClassName('password')[0].classList.remove('display-item'), 100);
 }
 
 function setPin() {
-    document.getElementsByClassName('password')[0].classList.remove('display');
+    document.getElementsByClassName('password')[0].classList.remove('display-item');
     let pin = document.getElementById('pin').value;
     let confirmpin = document.getElementById('confirmPin').value;
     
     if(pin == '' || pin != confirmpin){
-        document.getElementsByClassName('wrongPassword')[0].classList.remove('display');
+        document.getElementsByClassName('wrong-password')[0].classList.remove('display-item');
         document.getElementById('pin').classList.add('wrong-input');
         document.getElementById('confirmPin').classList.add('wrong-input');
         document.pinForm.setAttribute("onsubmit", "return false;");
@@ -157,14 +158,11 @@ function setPin() {
         currentUser.setUserPin(pin);
         let user = currentUser.details;
 
-        console.log(user);
-
-        let tx = db.transaction('accountDetails', 'readwrite');
-        tx.oncomplete = (ev) => {
-            console.log(ev);
+        let dbTransaction = db.transaction('accountDetails', 'readwrite');
+        dbTransaction.oncomplete = (ev) => {
         };
-        tx.onerror = (err) => {
-            console.warn(err);
+        dbTransaction.onerror = (err) => {
+            console.error(err);
         }
 
         localStorage.setItem('currentUserId', user.id);
@@ -172,17 +170,17 @@ function setPin() {
         document.pinForm.onsubmit = "";
         document.pinForm.setAttribute("action", "dashboard.html");
 
-        let acct = tx.objectStore('accountDetails'); 
+        let acct = dbTransaction.objectStore('accountDetails'); 
         let request = acct.add(user);  
 
         request.onsuccess = (ev) => {
-            console.log('success');
         };
         request.onerror = (err) => {
-            console.log('error');
         };
     }
 }
+
+let accountExist = false;
 
 function login() {
 
@@ -190,12 +188,18 @@ function login() {
     let pin = document.getElementById('loginPin').value;
     document.loginForm.setAttribute('onsubmit', 'return false;');
 
+    if (!accountExist) {
+        document.getElementById('accountId').classList.add('wrong-input');
+        document.getElementById('accountId').value = '';
+        return;
+    }
+
     if (pin == currentUser.details.pin) {
         localStorage.setItem('currentUserId', accountID);
         document.loginForm.setAttribute("action", "dashboard.html");
         document.loginForm.onsubmit = "";
     } else {
-        document.getElementsByClassName('warning')[0].classList.remove('display');
+        document.getElementsByClassName('warning')[0].classList.remove('display-item');
         document.getElementsByClassName('warning')[0].innerHTML = 'Incorrect Pin <br>';
         document.getElementById('loginPin').classList.add('wrong-input');
         document.getElementById('loginPin').value = '';
@@ -207,32 +211,31 @@ function checkAccountId() {
     if  (accountID.length == 0) {
         return;
     } else if (accountID.length != 10) {
-        document.getElementsByClassName('acctId')[0].classList.remove('display');
+        document.getElementsByClassName('account-id')[0].classList.remove('display-item');
         document.getElementById('accountId').classList.add('wrong-input');
         document.getElementById('accountId').focus();
-        document.getElementsByClassName('warning')[0].classList.add('display');
+        document.getElementsByClassName('warning')[0].classList.add('display-item');
         return;
     } else {
-        document.getElementsByClassName('acctId')[0].classList.add('display');
+        document.getElementsByClassName('account-id')[0].classList.add('display-item');
         document.getElementById('accountId').classList.remove('wrong-input');
-        let tx = db.transaction('accountDetails', 'readonly');
-        tx.oncomplete = (ev) => {
-            console.log(ev);
+        let dbTransaction = db.transaction('accountDetails', 'readonly');
+        dbTransaction.oncomplete = (ev) => {
         };
-        tx.onerror = (err) => {
-            console.warn(err);
+        dbTransaction.onerror = (err) => {
+            console.error(err);
         }
-        let acct = tx.objectStore('accountDetails');
+        let acct = dbTransaction.objectStore('accountDetails');
         let request = acct.get(accountID);
         request.onsuccess = (ev) => {
             let user = request.result;
-            console.log(user);
             if (user) {
+                accountExist = true;
                 currentUser.setUserPin(user.pin);
                 document.getElementById('loginPin').readOnly = false;
                 document.getElementsByClassName('warning')[0].innerHTML = '';
             } else {
-                document.getElementsByClassName('warning')[0].classList.remove('display');
+                document.getElementsByClassName('warning')[0].classList.remove('display-item');
                 document.getElementsByClassName('warning')[0].innerHTML = 'Account Not Found!!<br>';
                 document.getElementById('accountId').value = '';
                 document.getElementById('accountId').classList.add('account-id-incorrect');
@@ -240,26 +243,25 @@ function checkAccountId() {
             }    
         };
         request.onerror = (err) => {
-            console.log('error');
         };
     }
 }
 
 function createAccount() {
-    document.getElementsByClassName('login-block')[0].classList.add('display');
+    document.getElementsByClassName('login-block')[0].classList.add('display-item');
     document.getElementsByClassName('block')[0].classList.add('block-height');
-    setTimeout(() => document.getElementsByClassName('signup')[0].classList.remove('display'), 200);
-    document.getElementById('loginPage').classList.remove('login');
-    document.getElementById('SignUpPage').classList.add('login');
+    setTimeout(() => document.getElementsByClassName('signup')[0].classList.remove('display-item'), 200);
+    document.getElementsByClassName('login-page')[0].classList.remove('login');
+    document.getElementsByClassName('sign-up-page')[0].classList.add('login');
     document.getElementById('accountId').focus();
 }
 
 function loginPage() {
-    document.getElementsByClassName('signup')[0].classList.add('display');
+    document.getElementsByClassName('signup')[0].classList.add('display-item');
     document.getElementsByClassName('block')[0].classList.remove('block-height');
-    setTimeout(() => document.getElementsByClassName('login-block')[0].classList.remove('display'), 25);
-    document.getElementById('loginPage').classList.add('login');
-    document.getElementById('SignUpPage').classList.remove('login');
+    setTimeout(() => document.getElementsByClassName('login-block')[0].classList.remove('display-item'), 25);
+    document.getElementsByClassName('login-page')[0].classList.add('login');
+    document.getElementsByClassName('sign-up-page')[0].classList.remove('login');
     document.getElementById('name').focus();
 }
 
