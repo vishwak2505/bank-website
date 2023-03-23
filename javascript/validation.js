@@ -1,3 +1,17 @@
+function condition(name, toolName, flag) {
+    if (!flag) {
+        document.getElementById(name).classList.add(wrongInput);
+        document.getElementById(name).focus();
+        document.getElementsByClassName(toolName)[0].classList.add('tool-tip-disp');
+        setTimeout(() => { 
+            document.getElementsByClassName(toolName)[0].classList.remove('tool-tip-disp');
+        }, 2000);
+        return;
+    }
+    document.getElementById(name).classList.remove(wrongInput);
+    return;  
+}
+
 function checkText() {
     let name = document.getElementById('name').value.trim();
     let reg = /^[a-z ,.'-]+$/i;
@@ -20,32 +34,29 @@ function checkPin() {
     condition ('pin', 'tool-pin', (pin.length == 4 ? true : false) );
 }
 
+function inputField(inputId) {
+    document.getElementsByClassName('wrong-pin')[0].classList.remove(displayItem);
+    document.getElementById(inputId).value = '';
+    document.getElementById(inputId).focus();
+    document.getElementById(inputId).classList.add(wrongInput);
+}
+
 function checkAmount() {
     let amount = Number(document.getElementById('amount').value);
     if (amount == 0) {
-        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        inputField('amount');
         document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter Valid Amount <br>';
-        document.getElementById('amount').value = '';
-        document.getElementById('amount').focus();
-        document.getElementById('amount').classList.add('wrong-input');
     } else if (amount > 50000) {
-        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        inputField('amount');
         document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter Amount Less than 50,000<br>';
-        document.getElementById('amount').value = '';
-        document.getElementById('amount').focus();
-        document.getElementById('amount').classList.add('wrong-input');
     }
 }
 
 function checkPinTrans() {
     let pin = document.getElementById('pin').value;
     if (pin.length != 4) {
-        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        inputField('pin');
         document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter 4 digit Pin <br>';
-        document.getElementById('pin').value = '';
-        document.getElementById('pin').focus();
-        document.getElementById('pin').classList.add('wrong-input');
-        return;
     }
 }
 
@@ -60,16 +71,17 @@ function checkAccount() {
     document.getElementsByClassName('tool-account')[0].classList.remove('tool-tip-disp');
 }
 
-function condition(name, toolName, flag) {
-    if (!flag) {
-        document.getElementById(name).classList.add('wrong-input');
-        document.getElementById(name).focus();
-        document.getElementsByClassName(toolName)[0].classList.add('tool-tip-disp');
-        setTimeout(() => { 
-            document.getElementsByClassName(toolName)[0].classList.remove('tool-tip-disp');
-        }, 2000);
-        return;
+function setMax() {
+    let endDate = document.getElementById('endDate').value;
+    if (endDate == '') {
+        endDate = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
     }
-    document.getElementById(name).classList.remove('wrong-input');
-    return;  
+    document.getElementById('startDate').max = endDate;
+}
+
+function setMin() {
+    let startDate = document.getElementById('startDate').value,
+    maxDate = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
+    document.getElementById('endDate').min = startDate;
+    document.getElementById('endDate').max = maxDate;
 }

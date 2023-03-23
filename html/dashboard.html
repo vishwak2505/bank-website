@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/dashboard.css">
     <link rel="stylesheet" href="/css/main.css">
+    <script src="/javascript/user.js"></script>
     <script src="/javascript/dashboard.js"></script>
     <script src="/javascript/validation.js"></script>
     <title>Dashboard</title>
@@ -31,14 +32,14 @@
     </div>
     <div class="update display-item">
         <form action="#" name="updateForm" class="form" onsubmit="return false;">
-                <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" class="form-input" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
-                <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" class="form-input" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
-                <input type="checkbox" name="savings" class="form-checkbox" id="savings" /><label for="savings">Savings</label><input type="checkbox" name="current" id="current" class="form-checkbox" /><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
-                <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" class="form-input" placeholder="Door Number" required /> 
-                <input type="text" name="addressHouseName" id="addressHouseName" class="form-input" placeholder="House Name" required><br> 
-                <input type="text" name="addressStreet" id="addressStreet" class="form-input" placeholder="Street Name" required /><br>
-                <input type="text" name="addressArea" id="addressArea" class="form-input" placeholder="Area" required /><br>
-                <input type="text" name="addressCity" id="addressCity" class="form-input" placeholder="City" required /><br> 
+                <input type="number" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" class="form-input" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
+                <input type="email" id="mail" placeholder="Mail Id" onfocusout="checkMail()" class="form-input" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
+                <input type="checkbox" class="form-checkbox" name="savings" id="savings" /><label for="savings">Savings</label><input type="checkbox" name="current" id="current" class="form-checkbox" /><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
+                <input type="text" id="addressDoor" onfocus="checkAccount()" class="form-input" placeholder="Door Number" required /> 
+                <input type="text" id="addressHouseName" class="form-input" placeholder="House Name" required><br> 
+                <input type="text" id="addressStreet" class="form-input" placeholder="Street Name" required /><br>
+                <input type="text" id="addressArea" class="form-input" placeholder="Area" required /><br>
+                <input type="text" id="addressCity" class="form-input" placeholder="City" required /><br> 
                 <button type="submit" onclick="update()">UPDATE</button>
         </form> 
     </div>
@@ -49,7 +50,7 @@
             </div>
             <div class="history"></div>
             <div class="transactions-footer">
-                <input type="text" name="startDate" id="startDate" onfocus="(this.type='date')" onblur="(this.type='text')" max="" placeholder="From" /><button onclick="transactionSummary()">Update</button><input type="text" name="endDate" id="endDate" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="To" />
+                <input type="text" id="startDate" onfocus="(this.type='date'); setMax()" onblur="(this.type='text')" placeholder="From" /><button onclick="transactionSummary()">Filter</button><input type="text" id="endDate" onfocus="(this.type='date'); setMin()" onblur="(this.type='text')" placeholder="To" />
             </div>     
         </div>
     </div>
@@ -67,8 +68,8 @@
         </div>
         <div class="amount-form display-item">
             <form onsubmit="return false;">
-                <input type="number" name="amount" id="amount" placeholder="Enter Amount" onfocusout="checkAmount()" required /><br>
-                <input type="password" name="pin" id="pin" placeholder="Pin" maxlength="4" onfocusout="checkPinTrans()" required /><br><span class="wrong-pin display-item">Incorrect Pin <br></span><br>  
+                <input type="number" id="amount" placeholder="Enter Amount" onfocusout="checkAmount()" class="amount-form-input" required /><br>
+                <input type="password" id="pin" placeholder="Pin" maxlength="4" onfocusout="checkPinTrans()" class="amount-form-input" required /><br><span class="wrong-pin display-item">Incorrect Pin <br></span><br>  
                 <button onclick="validateTransaction()">Submit</button>
             </form>
         </div>
