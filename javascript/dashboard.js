@@ -350,8 +350,6 @@ function updateDetails(){
 }
 
 function update() {
-    document.getElementsByClassName('home-bar')[0].classList.remove(displayItem);
-    document.getElementsByClassName('transaction-bar')[0].classList.add(displayItem);
     let form = document.getElementsByClassName('form')[0],
         tags = form.children,  
         contact = '',
@@ -390,6 +388,8 @@ function update() {
             }
         }
     }
+    document.getElementsByClassName('home-bar')[0].classList.remove(displayItem);
+    document.getElementsByClassName('transaction-bar')[0].classList.add(displayItem);
     address.addressState = currentUser.details.homeaddress.addressState;
     currentUser.updateAccount(address, accountType, contact, mail);
     let user = currentUser.details,
