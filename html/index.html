@@ -45,7 +45,7 @@
         </div>
         <div class="login-block">
             <form name="loginForm" class="form">
-                <input type="number" id="accountId" placeholder="Account ID" onfocusout="checkAccountId()" class="form-input" required /><span class="account-id display-item">Account Number should 10 digits<br></span><br>
+                <input type="number" id="accountId" placeholder="Account ID" onfocusout="checkAccountId()" class="form-input" onkeypress="return event.keyCode != 13;" required /><span class="account-id display-item">Account Number should 10 digits<br></span><br>
                 <input type="password" id="loginPin" placeholder="PIN" title="4 Digit PIN" maxlength="4" class="form-input" required readonly /><br><span class="warning display-item"></span>
                 <br><button type="submit" onclick="login()">Login</button>  
             </form>
