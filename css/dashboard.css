@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5{
 }
 
 .nav-left button{
-    background-color: #00000000;;
+    background-color: #00000000;
     height: inherit;
     width: 100%;
     color: #f5f5f5;
@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5{
 }
 .nav-right button {
     height: inherit;
-    width: 49%;
+    width: 46%;
     background-color: #00000000;
     color: #f5f5f5;
     border: none;
@@ -150,7 +150,7 @@ h1, h2, h3, h4, h5{
     font-weight: bolder;
 }
 
-.amount-form input{
+.amount-form-input{
     text-align: center;
     margin-bottom: 5%;
     color: #f0f8ff;
@@ -197,6 +197,7 @@ h1, h2, h3, h4, h5{
 
 .my-account button{
     background-color: #00000080;
+    margin-top: 1%;
     color: #f0f8ff;
     height: 3vh;
     width: 100%;
@@ -215,7 +216,7 @@ h1, h2, h3, h4, h5{
 .details{
     padding-top: 5%;
     width: 100%;
-    height: 80%;
+    height: 75%;
     background-color: #00000080;
     overflow-y: scroll;
     overflow-x: hidden;

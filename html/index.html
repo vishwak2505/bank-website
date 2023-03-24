@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
+    <script src="/javascript/user.js"></script>
     <script src="/javascript/login.js"></script>
     <script src="/javascript/validation.js"></script>
     <title>Bank</title>
@@ -19,17 +20,17 @@
         <div class="signup display-item">
             <form action="#" name="signUpForm" class="form" onsubmit="return false;">
                 <div id="SignUpForm" class="form-scroll">
-                    <input type="text" name="fullname" id="name" placeholder="First name and last name" onfocusout="checkText()" class="form-input" maxlength="25" required /><span class="tooltip tool-name">Name should not contain special characters </span><br>
-                    <input type="text" name="dateOfBirth" id="dateOfBirth" max="2018-01-01" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-input" placeholder="DOB" required /><br>
-                    <input type="number" name="contact" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" class="form-input" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
-                    <input type="email" name="mail" id="mail" placeholder="Mail Id" onfocusout="checkMail()" class="form-input" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
+                    <input type="text" id="name" placeholder="First name and last name" onfocusout="checkText()" class="form-input" maxlength="25" required /><span class="tooltip tool-name">Name should not contain special characters </span><br>
+                    <input type="text" id="dateOfBirth" max="2018-01-01" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-input" placeholder="DOB" required /><br>
+                    <input type="number" id="contact" placeholder="Mobile Number" onfocusout="checkNumber()" class="form-input" maxlength="10" required /><span class="tooltip tool-contact">Enter a valid Mobile Number</span><br>
+                    <input type="email" id="mail" placeholder="Mail Id" onfocusout="checkMail()" class="form-input" required /><span class="tooltip tool-mail">Enter a valid Mail ID</span><br>
                     <input type="checkbox" name="savings" id="savings" class="form-checkbox" checked /><label for="savings">Savings</label><input type="checkbox" name="current" id="current" class="form-checkbox" /><label for="current">Current</label><span class="tooltip tool-account">Select Account Type</span><br><br>
-                    <input type="text" name="addressDoor" id="addressDoor" onfocus="checkAccount()" class="form-input" placeholder="Door Number" required /> 
-                    <input type="text" name="addressHouseName" id="addressHouseName" placeholder="House Name" class="form-input" required /><br> 
-                    <input type="text" name="addressStreet" id="addressStreet" placeholder="Street Name" class="form-input" required /><br>
-                    <input type="text" name="addressArea" id="addressArea" placeholder="Area" class="form-input" required /><br>
-                    <input type="text" name="addressCity" id="addressCity" placeholder="City" class="form-input" required /><br> 
-                    <select name="addressState" id="addressState" required>
+                    <input type="text" id="addressDoor" onfocus="checkAccount()" class="form-input" placeholder="Door Number" required /> 
+                    <input type="text" id="addressHouseName" placeholder="House Name" class="form-input" required /><br> 
+                    <input type="text" id="addressStreet" placeholder="Street Name" class="form-input" required /><br>
+                    <input type="text" id="addressArea" placeholder="Area" class="form-input" required /><br>
+                    <input type="text" id="addressCity" placeholder="City" class="form-input" required /><br> 
+                    <select id="addressState" required>
                     </select>
                 </div><br>   
                 <button type="submit" onclick="signUp()">Sign Up</button>
@@ -37,15 +38,15 @@
         </div>
         <div class="password display-item">
             <form name="pinForm" class="form">
-                <input type="password" name="pin" id="pin" placeholder="Enter PIN" onfocusout="checkPin()" class="form-input" maxlength="4" required /><span class="tooltip tool-pin">Enter 4 digit pin</span><br>
-                <input type="password" name="confirmPin" id="confirmPin" placeholder="Confirm PIN" maxlength="4" class="form-input" required /><br><span class="wrong-password display-item">Password does not match <br></span>
+                <input type="password" id="pin" placeholder="Enter PIN" onfocusout="checkPin()" class="form-input" maxlength="4" required /><span class="tooltip tool-pin">Enter 4 digit pin</span><br>
+                <input type="password" id="confirmPin" placeholder="Confirm PIN" maxlength="4" class="form-input" required /><br><span class="wrong-password display-item">Password does not match <br></span>
                 <br><button onclick="setPin()">Submit</button>
             </form>
         </div>
         <div class="login-block">
             <form name="loginForm" class="form">
-                <input type="number" name="accountId" id="accountId" placeholder="Account ID" onfocusout="checkAccountId()" class="form-input" required /><span class="account-id display-item">Account Number should 10 digits<br></span><br>
-                <input type="password" name="loginPin" id="loginPin" placeholder="PIN" title="4 Digit PIN" maxlength="4" class="form-input" required readonly /><br><span class="warning display-item"></span>
+                <input type="number" id="accountId" placeholder="Account ID" onfocusout="checkAccountId()" class="form-input" required /><span class="account-id display-item">Account Number should 10 digits<br></span><br>
+                <input type="password" id="loginPin" placeholder="PIN" title="4 Digit PIN" maxlength="4" class="form-input" required readonly /><br><span class="warning display-item"></span>
                 <br><button type="submit" onclick="login()">Login</button>  
             </form>
         </div>

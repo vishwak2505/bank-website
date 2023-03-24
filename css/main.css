@@ -82,7 +82,6 @@ input::-webkit-inner-spin-button {
     height: 4vh;
     background-color: #9fb5e566;
     border: none;
-    border-style: solid 1px;
     border-radius: 15px;
     font-size: 0.9vw;
 }
@@ -114,7 +113,6 @@ input::-webkit-inner-spin-button {
     width: 80%;
     font-weight: bold;
     border: none;
-    border-style: solid 1px;
     border-radius: 20px;
     font-size: 0.9vw;
 }

@@ -1,64 +1,14 @@
-class User{
-    constructor () {
-        this.id = "";
-        this.name = "";
-        this.dob = "";
-        this.contact = "";
-        this.mail = "";
-        this.accountType = { savings: false, current: false };
-        this.homeaddress = [];
-        this.balance = { savings: 0, current: 0 };
-        this.pin = "";
-        this.transactions = [0];
-    }
+// CSS
+const displayItem = 'display-item', 
+      wrongInput = 'wrong-input';
 
-    setUserDetails(id, name, dob, contact, mail, accountType, balance, homeaddress, pin, transactions) {
-        this.id = id;
-        this.name = name;
-        this.dob = dob;
-        this.contact = contact;
-        this.mail = mail;
-        this.accountType = accountType;
-        this.balance = balance;
-        this.homeaddress = homeaddress;
-        this.pin = pin;
-        this.transactions = transactions;
-    }
-
-    updateTransaction(balance, transaction) {
-        this.balance = balance;
-        this.transactions = transaction;
-    }
-    
-    updateAccount(address, accountType, contact, mail) {
-        this.homeaddress = address;
-        this.accountType = accountType;
-        this.contact = contact;
-        this.mail = mail;
-    }
-
-    get details() {
-        return ({
-            id: this.id,
-            pin: this.pin,
-            name: this.name,
-            dob: this.dob,
-            contact: this.contact,
-            mail: this.mail,
-            accountType: this.accountType,
-            balance: this.balance,
-            homeaddress: this.homeaddress,
-            transactions: this.transactions,
-        });
-    }
-}
-
-let db = null;
-let objectStore = null;
-let DBOpenReq = indexedDB.open('BankDB', 4);
-let currentUser = new User();
-let withdrawMoney = true;
-let savingsAccount = true;
+let dbVersion = 4,
+    db = null,
+    objectStore = null,
+    DBOpenReq = indexedDB.open('BankDB', dbVersion),
+    currentUser = new User(),
+    withdrawMoney = true,
+    savingsAccount = true;
 
 function dbEvent() {
     DBOpenReq.addEventListener('error', (err) => {
@@ -71,8 +21,8 @@ function dbEvent() {
         };
         dbTransaction.onerror = (err) => {
         }
-        let acct = dbTransaction.objectStore('accountDetails');
-        let request = acct.get(localStorage.getItem('currentUserId'));
+        let acct = dbTransaction.objectStore('accountDetails'),
+            request = acct.get(localStorage.getItem('currentUserId'));
         request.onsuccess = (ev) => {
             let user = request.result;
             currentUser.setUserDetails(user.id, user.name, user.dob, user.contact, user.mail, user.accountType, user.balance, user.homeaddress, user.pin, user.transactions);
@@ -105,11 +55,11 @@ function savings() {
         alert('This account is not linked with savings');
         return;
     }
-    document.getElementsByClassName('content')[0].classList.add('display-item');
-    document.getElementsByClassName('home-bar')[0].classList.add('display-item');
-    document.getElementsByClassName('transaction-bar')[0].classList.remove('display-item');
+    document.getElementsByClassName('content')[0].classList.add(displayItem);
+    document.getElementsByClassName('home-bar')[0].classList.add(displayItem);
+    document.getElementsByClassName('transaction-bar')[0].classList.remove(displayItem);
     document.getElementById('text').innerHTML = '<h2>Savings Account</h2>';
-    document.getElementsByClassName('transaction-block')[0].classList.remove('display-item');
+    document.getElementsByClassName('transaction-block')[0].classList.remove(displayItem);
     savingsAccount = true;
 }
 
@@ -119,51 +69,49 @@ function current() {
         alert('This account is not linked with current');
         return;
     }
-    document.getElementsByClassName('content')[0].classList.add('display-item');
-    document.getElementsByClassName('home-bar')[0].classList.add('display-item');
-    document.getElementsByClassName('transaction-bar')[0].classList.remove('display-item');
+    document.getElementsByClassName('content')[0].classList.add(displayItem);
+    document.getElementsByClassName('home-bar')[0].classList.add(displayItem);
+    document.getElementsByClassName('transaction-bar')[0].classList.remove(displayItem);
     document.getElementById('text').innerHTML = '<h2>Current Account</h2>';
-    document.getElementsByClassName('transaction-block')[0].classList.remove('display-item');
+    document.getElementsByClassName('transaction-block')[0].classList.remove(displayItem);
     savingsAccount = false;
 }
 
 function deposit() {
-    document.getElementsByClassName('withdraw-tile')[0].classList.add('display-item');
+    document.getElementsByClassName('withdraw-tile')[0].classList.add(displayItem);
     document.getElementById('text').innerHTML = '<h2>Deposit</h2>';
-    document.getElementsByClassName('amount-form')[0].classList.add('display-left');
-    document.getElementsByClassName('amount-form')[0].classList.remove('display-item');
+    document.getElementsByClassName('amount-form')[0].classList.replace(displayItem, 'display-left');
     document.getElementsByClassName('message')[0].classList.add('display-left');
     document.getElementById('amount').focus();
     withdrawMoney = false;
 }
 
 function withdraw() {
-    document.getElementsByClassName('deposit-tile')[0].classList.add('display-item');
+    document.getElementsByClassName('deposit-tile')[0].classList.add(displayItem);
     document.getElementById('text').innerHTML = '<h2>Withdraw</h2>';
-    document.getElementsByClassName('amount-form')[0].classList.add('display-right');
-    document.getElementsByClassName('amount-form')[0].classList.remove('display-item');
+    document.getElementsByClassName('amount-form')[0].classList.replace(displayItem, 'display-right');
     document.getElementsByClassName('message')[0].classList.add('display-right');
     document.getElementById('amount').focus();
     withdrawMoney = true;
 }
 
 function myAccount() {
-    if ( document.getElementsByClassName('my-account')[0].classList.contains('display-item') ) {
-        document.getElementsByClassName('update')[0].classList.add('display-item');
-        document.getElementsByClassName('my-account')[0].classList.remove('display-item');
-        document.getElementsByClassName('content')[0].classList.add('display-item');
-        document.getElementsByClassName('transaction-history')[0].classList.add('display-item');
+    if ( document.getElementsByClassName('my-account')[0].classList.contains(displayItem) ) {
+        document.getElementsByClassName('update')[0].classList.add(displayItem);
+        document.getElementsByClassName('my-account')[0].classList.remove(displayItem);
+        document.getElementsByClassName('content')[0].classList.add(displayItem);
+        document.getElementsByClassName('transaction-history')[0].classList.add(displayItem);
         document.getElementById('acct-button').innerText = 'Home';
         document.getElementById('trans-button').innerText = 'Transaction History';
     } else {
-        document.getElementsByClassName('my-account')[0].classList.add('display-item');
-        document.getElementsByClassName('content')[0].classList.remove('display-item');
+        document.getElementsByClassName('my-account')[0].classList.add(displayItem);
+        document.getElementsByClassName('content')[0].classList.remove(displayItem);
         document.getElementById('acct-button').innerText = 'My Account';
     }
 
-    let user = currentUser.details;
-    let details = '';
-    let flag = 0;
+    let user = currentUser.details,
+        details = '',
+        flag = 0;
     for (key in user) {
         if (key != 'pin' && key != 'transactions') {
             let displayKey = key;
@@ -190,7 +138,7 @@ function myAccount() {
                 continue;
             }
             if (key == 'homeaddress') {
-                details += `<h5>${displayKey.toUpperCase()}:</h5> <h4>${user[key].join(', ')}</h4><br>`;
+                details += `<h5>${displayKey.toUpperCase()}:</h5> <h4>${[].concat(...Object.values(user[key])).join(', ')}</h4><br>`;
                 continue;
             }
             details += `<h5>${displayKey.toUpperCase()}:</h5> <h4>${user[key]}</h4><br>`;
@@ -201,22 +149,28 @@ function myAccount() {
 
 function transactionDetails(filterUser) {
     let details = '';
-    for (index in filterUser) {
-        if (typeof(filterUser[index]) == 'object') {
-            details = `<h4>Day: ${filterUser[index].date}</h4><h4>Time: ${filterUser[index].time}</h4><br>
-                        <h4>Transaction: ${filterUser[index].transaction}</h4><h4>Amount: ${filterUser[index].amount}</h4><br>
-                        <h4>Account: ${filterUser[index].account}</h4><h4>Balance: ${filterUser[index].balance}</h4><hr>` + details;
-        }   
-    }
+    filterUser.forEach(detail => {
+        if (typeof(detail) == 'object' && Object.keys(detail).length > 0) {
+            details = `<h4>Date: ${detail.date}</h4><h4>Time: ${detail.time}</h4><br>
+                        <h4>Transaction: ${detail.transaction}</h4><h4>Amount: ${detail.amount}</h4><br>
+                        <h4>Account: ${detail.account}</h4><h4>Balance: ${detail.balance}</h4><hr>` + details;
+        } 
+    });
     return details;
 }
 
 function transactionSummary() {
     let user = currentUser.details.transactions;
-    let details = '';
-    let filterUser = [...user];
-    let start = document.getElementById('startDate').value;
-    let end = document.getElementById('endDate').value;
+
+    if (user.length == 1) { 
+        document.getElementsByClassName('history')[0].innerHTML = '<h4>No Transactions Performed</h4>';
+        return;
+    }
+    
+    let details = '',
+        filterUser = [...user],
+        start = document.getElementById('startDate').value,
+        end = document.getElementById('endDate').value;
 
     if (start != '' && end != '') {
         filterUser = user.filter((item) => { return (item['date'] <= end && item['date'] >= start )});
@@ -239,70 +193,56 @@ function transactionSummary() {
 }
 
 function transactionHistory() {
-    let user = currentUser.details.transactions;
-    let details = '';
-    if ( document.getElementsByClassName('transaction-history')[0].classList.contains('display-item')) {
-        document.getElementsByClassName('transaction-history')[0].classList.remove('display-item');
-        document.getElementsByClassName('my-account')[0].classList.add('display-item');
-        document.getElementsByClassName('content')[0].classList.add('display-item');
+    if ( document.getElementsByClassName('transaction-history')[0].classList.contains(displayItem)) {
+        document.getElementsByClassName('transaction-history')[0].classList.remove(displayItem);
+        document.getElementsByClassName('my-account')[0].classList.add(displayItem);
+        document.getElementsByClassName('content')[0].classList.add(displayItem);
         document.getElementById('trans-button').innerText = 'Home';
         document.getElementById('acct-button').innerText = 'My Account';
     } else {
-        document.getElementsByClassName('transaction-history')[0].classList.add('display-item');
-        document.getElementsByClassName('content')[0].classList.remove('display-item');
+        document.getElementsByClassName('transaction-history')[0].classList.add(displayItem);
+        document.getElementsByClassName('content')[0].classList.remove(displayItem);
         document.getElementById('trans-button').innerText = 'Transaction History';
     }
 
-    for (index in user) {
-        if (typeof(user[index]) == 'object') {
-            details = `<h4>Day: ${user[index].date}</h4><h4>Time: ${user[index].time}</h4><br>
-                        <h4>Transaction: ${user[index].transaction}</h4><h4>Amount: ${user[index].amount}</h4><br>
-                        <h4>Account: ${user[index].account}</h4><h4>Balance: ${user[index].balance}</h4><hr>` + details;
-        }
-    }
-
-    if (details == '') {
-        details = `<h4>No Transactions Performed</h4>`;
-    }
-
-    document.getElementsByClassName('history')[0].innerHTML = details;
+    transactionSummary();
 }
 
-let count = 3;
+let wrongPasswordCount = 3;
 
 function validateTransaction() {
-    let user = currentUser.details;
-    let amount = document.getElementById('amount').value;
-    amount = +amount;
-    let pin = document.getElementById('pin').value;
-    let transSuccess = false;
+    let user = currentUser.details,
+        amount = document.getElementById('amount').value,
+        pin = document.getElementById('pin').value,
+        transSuccess = false;
+        amount = +amount;
     if (amount == '') {
-        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        document.getElementsByClassName('wrong-pin')[0].classList.remove(displayItem);
         document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter Amount <br>';
         document.getElementById('amount').value = '';
         document.getElementById('amount').focus();
-        document.getElementById('amount').classList.add('wrong-input');
+        document.getElementById('amount').classList.add(wrongInput);
         return;
     }
     if (pin != user.pin) {
-        if (count == 0) {
+        if (wrongPasswordCount == 0) {
             alert('Logged out due to too many attempts of incorrect pin');
             window.location.replace('index.html');
             return;
         }
-        document.getElementsByClassName('wrong-pin')[0].classList.remove('display-item');
+        document.getElementsByClassName('wrong-pin')[0].classList.remove(displayItem);
         document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Incorrect Pin <br>';
         document.getElementById('pin').value = '';
         document.getElementById('pin').focus();
-        document.getElementById('pin').classList.add('wrong-input');
-        alert(`${count--} Attempts Left`);
+        document.getElementById('pin').classList.add(wrongInput);
+        alert(`${wrongPasswordCount--} Attempts Left`);
         return;
     }
-    count = 3;
-    let account = 'savings';
-    let transaction = '';
-    document.getElementsByClassName('exit-button')[0].classList.add('display-item');
-    document.getElementsByClassName('amount-form')[0].classList.add('display-item');
+    wrongPasswordCount = 3;
+    let account = 'savings',
+        transaction = '';
+    document.getElementsByClassName('exit-button')[0].classList.add(displayItem);
+    document.getElementsByClassName('amount-form')[0].classList.add(displayItem);
     if (!savingsAccount) { account = 'current';}
     if (withdrawMoney) {
         if (user.balance[account] > (amount)) {
@@ -310,7 +250,7 @@ function validateTransaction() {
             transaction = 'Withdraw';
             transSuccess = true;
         } else {
-            document.getElementsByClassName('message')[0].classList.remove('display-item');
+            document.getElementsByClassName('message')[0].classList.remove(displayItem);
             document.getElementsByClassName('message')[0].innerHTML = '<h2>Transaction Unsuccessfull! Insuffiecient Balance</h2> <h2>Balance: ' + user.balance[account] + '</h2>';
         }
     } else {
@@ -319,10 +259,10 @@ function validateTransaction() {
             transSuccess = true;
     }
     if (transSuccess) {
-        document.getElementsByClassName('message')[0].classList.remove('display-item');
+        document.getElementsByClassName('message')[0].classList.remove(displayItem);
         document.getElementsByClassName('message')[0].innerHTML = '<h2>Transaction Successfull</h2> <h2>Balance: ' + user.balance[account] + '</h2>';    
-        let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0);
-        let time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
+        let date = new Date().getFullYear() + '-' + String(new Date().getMonth()+1).padStart(2,0) + '-' + String(new Date().getDate()).padStart(2,0),
+            time = String(new Date().getHours()).padStart(2,0) + ':' + String(new Date().getMinutes()).padStart(2,0) + ':' + String(new Date().getSeconds()).padStart(2,0);
         user.transactions.push({
             id: user.transactions.length+1,
             date,
@@ -340,8 +280,8 @@ function validateTransaction() {
             console.error(err);
         }
 
-        let acct = dbTransaction.objectStore('accountDetails'); 
-        let request = acct.put(user);  
+        let acct = dbTransaction.objectStore('accountDetails'), 
+            request = acct.put(user);  
 
         request.onsuccess = (ev) => {
         };
@@ -357,18 +297,18 @@ function logout() {
 }
 
 function updateDetails(){
-    document.getElementsByClassName('update')[0].classList.remove('display-item');
-    document.getElementsByClassName('my-account')[0].classList.add('display-item');
-    document.getElementsByClassName('home-bar')[0].classList.add('display-item');
-    document.getElementsByClassName('transaction-bar')[0].classList.remove('display-item');
-    let form = document.getElementsByClassName('form')[0];
-    let tags = form.children;    
-    let user = currentUser.details;
-    let account = { savings: user.accountType.savings, current: user.accountType.current};
-    let address = user.homeaddress;
-    for (child of tags) {
+    document.getElementsByClassName('update')[0].classList.remove(displayItem);
+    document.getElementsByClassName('my-account')[0].classList.add(displayItem);
+    document.getElementsByClassName('home-bar')[0].classList.add(displayItem);
+    document.getElementsByClassName('transaction-bar')[0].classList.remove(displayItem);
+    let form = document.getElementsByClassName('form')[0],
+        tags = form.children,    
+        user = currentUser.details,
+        account = { savings: user.accountType.savings, current: user.accountType.current},
+        address = user.homeaddress;
+    Array.from(tags).forEach (child => {
         if (child.tagName == 'INPUT') {
-            switch (child.name) {
+            switch (child.id) {
                 case 'contact':
                     child.value = +user.contact;
                     break;
@@ -376,97 +316,92 @@ function updateDetails(){
                     child.value = user.mail;
                     break;
                 case 'addressDoor':
-                    child.value = address[0];
+                    child.value = address[child.id];
                     break;
                 case 'addressHouseName':
-                    child.value = address[1];
+                    child.value = address[child.id];
                     break;
                 case 'addressStreet':
-                    child.value = address[2];
+                    child.value = address[child.id];
                     break;
                 case 'addressArea':
-                    child.value = address[3];
+                    child.value = address[child.id];
                     break;  
                 case 'addressCity':
-                    child.value = address[4];
-                    break;        
+                    child.value = address[child.id];
+                    break;
+                case 'savings':
+                    if (account.savings) {
+                        child.checked = true;
+                        child.disabled = true;
+                    }
+                    break;     
+                case 'current':
+                    if (account.current) {
+                        child.checked = true;
+                        child.disabled = true;
+                    }
+                    break;           
                 default:
                     break;
             }
-
-            if (child.name == 'savings') {
-                if (account.savings) {
-                    child.checked = true;
-                    child.disabled = true;
-                }
-            }
-            if (child.name == 'current') {
-                if (account.current) {
-                    child.checked = true;
-                    child.disabled = true;
-                }
-            }
         }       
-    }
+    });
 }
 
 function update() {
-    document.getElementsByClassName('home-bar')[0].classList.remove('display-item');
-    document.getElementsByClassName('transaction-bar')[0].classList.add('display-item');
-    let form = document.getElementsByClassName('form')[0];
-    let tags = form.children;    
-    let contact = '';
-    let mail = '';
-    let accountType = { savings: false, current: false};
-    let address = [];
+    let form = document.getElementsByClassName('form')[0],
+        tags = form.children,  
+        contact = '',
+        mail = '',
+        accountType = { savings: false, current: false},
+        address = {};
     for (child of tags) {
         if (child.tagName == 'INPUT') {
-            if (child.name.indexOf('address') != -1) {
+            if (child.id.indexOf('address') != -1) {
                 if (child.value == '') {
-                    child.classList.add('wrong-input');
+                    child.classList.add(wrongInput);
                     return;
                 }
-                child.classList.remove('wrong-input');
-                address.push(child.value);
-                continue;
-            }
-            if (child.name == 'savings') {
+                child.classList.remove(wrongInput);
+                address[child.id] = child.value;
+            } else if (child.id == 'savings') {
                 if (child.checked) {
                     accountType.savings = true;
                 }
-                continue;
-            }
-            if (child.name == 'current') {
+            } else if (child.id == 'current') {
                 if (child.checked) {
                     accountType.current = true;
                 }
-                continue;
-            }
-            if (child.value == '') {
-                child.classList.add('wrong-input');
-                return;
-            }
-            child.classList.remove('wrong-input');
-            if (child.name == 'contact') {
-                contact = child.value;
-            }
-            if (child.name == 'mail') {
-                mail = child.value;
+            } else {
+                if (child.value == '') {
+                    child.classList.add(wrongInput);
+                    return;
+                }
+                child.classList.remove(wrongInput);
+                if (child.id == 'contact') {
+                    contact = child.value;
+                }
+                if (child.id == 'mail') {
+                    mail = child.value;
+                }
             }
         }
     }
-    address.push(currentUser.details.homeaddress[5]);
+    document.getElementsByClassName('home-bar')[0].classList.remove(displayItem);
+    document.getElementsByClassName('transaction-bar')[0].classList.add(displayItem);
+    address.addressState = currentUser.details.homeaddress.addressState;
     currentUser.updateAccount(address, accountType, contact, mail);
-    let user = currentUser.details;
-    let dbTransaction = db.transaction('accountDetails', 'readwrite');
+    let user = currentUser.details,
+        dbTransaction = db.transaction('accountDetails', 'readwrite');
     dbTransaction.oncomplete = (ev) => {
     };
     dbTransaction.onerror = (err) => {
         console.error(err);
     }
 
-    let acct = dbTransaction.objectStore('accountDetails'); 
-    let request = acct.put(user);  
+    let acct = dbTransaction.objectStore('accountDetails'),
+        request = acct.put(user);  
 
     request.onsuccess = (ev) => {
     };
