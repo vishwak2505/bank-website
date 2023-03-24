@@ -140,31 +140,8 @@ function setPin() {
 
 let accountExist = false;
 
-function login() {
-
-    let accountID = document.getElementById('accountId').value.toString(),
-        pin = document.getElementById('loginPin').value;
-    document.loginForm.setAttribute('onsubmit', 'return false;');
-
-    if (!accountExist) {
-        document.getElementById('accountId').classList.add(wrongInput);
-        document.getElementById('accountId').value = '';
-        return;
-    }
-
-    if (pin == currentUser.details.pin) {
-        localStorage.setItem('currentUserId', accountID);
-        document.loginForm.setAttribute("action", "dashboard.html");
-        document.loginForm.onsubmit = "";
-    } else {
-        document.getElementsByClassName('warning')[0].classList.remove(displayItem);
-        document.getElementsByClassName('warning')[0].innerHTML = 'Incorrect Pin <br>';
-        document.getElementById('loginPin').classList.add(wrongInput);
-        document.getElementById('loginPin').value = '';
-    }  
-}
-
 function checkAccountId() {
+    if (accountExist) return;
     let accountID = document.getElementById('accountId').value;
     if  (accountID.length == 0) {
         return;
@@ -203,6 +180,29 @@ function checkAccountId() {
         request.onerror = (err) => {
         };
     }
+}
+
+function login() {
+
+    let accountID = document.getElementById('accountId').value.toString(),
+        pin = document.getElementById('loginPin').value;
+    document.loginForm.setAttribute('onsubmit', 'return false;');
+    if (!accountExist) {
+        document.getElementById('accountId').classList.add(wrongInput);
+        document.getElementById('accountId').value = '';
+        return;
+    }
+
+    if (pin == currentUser.details.pin) {
+        localStorage.setItem('currentUserId', accountID);
+        document.loginForm.setAttribute("action", "dashboard.html");
+        document.loginForm.onsubmit = "";
+    } else {
+        document.getElementsByClassName('warning')[0].classList.remove(displayItem);
+        document.getElementsByClassName('warning')[0].innerHTML = 'Incorrect Pin <br>';
+        document.getElementById('loginPin').classList.add(wrongInput);
+        document.getElementById('loginPin').value = '';
+    }  
 }
 
 function createAccount() {
