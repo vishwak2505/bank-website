@@ -40,7 +40,7 @@ function dbEvent() {
     });
 }
 
-const IDB = (function init() {
+(function init() {
     if (localStorage.getItem('currentUserId') == '') {
         window.location.replace('index.html');
     } else {
