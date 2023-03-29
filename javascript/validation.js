@@ -29,6 +29,17 @@ function checkMail() {
     condition ('mail', 'tool-mail', reg.test(mail));
 }
 
+function checkAccount() {
+    if (document.getElementById('savings').checked == false && document.getElementById('current').checked == false) {
+        document.getElementsByClassName('tool-account')[0].classList.add('tool-tip-disp');
+        setTimeout(() => { 
+            document.getElementsByClassName('tool-account')[0].classList.remove('tool-tip-disp');
+        }, 2000);
+        return;
+    }
+    document.getElementsByClassName('tool-account')[0].classList.remove('tool-tip-disp');
+}
+
 function checkPin() {
     let pin = document.getElementById('pin').value.trim();
     condition ('pin', 'tool-pin', (pin.length == 4 ? true : false) );
@@ -58,17 +69,6 @@ function checkPinTrans() {
         inputField('pin');
         document.getElementsByClassName('wrong-pin')[0].innerHTML = 'Enter 4 digit Pin <br>';
     }
-}
-
-function checkAccount() {
-    if (document.getElementById('savings').checked == false && document.getElementById('current').checked == false) {
-        document.getElementsByClassName('tool-account')[0].classList.add('tool-tip-disp');
-        setTimeout(() => { 
-            document.getElementsByClassName('tool-account')[0].classList.remove('tool-tip-disp');
-        }, 2000);
-        return;
-    }
-    document.getElementsByClassName('tool-account')[0].classList.remove('tool-tip-disp');
 }
 
 function setMax() {
