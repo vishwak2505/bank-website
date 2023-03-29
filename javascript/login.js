@@ -143,9 +143,7 @@ let accountExist = false;
 function checkAccountId() {
     if (accountExist) return;
     let accountID = document.getElementById('accountId').value;
-    if  (accountID.length == 0) {
-        return;
-    } else if (accountID.length != 10) {
+    if (accountID.length != 10) {
         document.getElementsByClassName('account-id')[0].classList.remove(displayItem);
         document.getElementById('accountId').classList.add(wrongInput);
         document.getElementById('accountId').focus();
