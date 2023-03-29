@@ -50,7 +50,7 @@ function dbEvent() {
 }
 
 (function init() {
-    getState('/country');
+    getState('/state');
     localStorage.setItem('currentUserId', '');
     dbEvent();
 })();
